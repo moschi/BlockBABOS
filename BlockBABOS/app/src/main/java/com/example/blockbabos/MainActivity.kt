@@ -21,7 +21,6 @@ import com.example.blockbabos.dropdown.DropdownOnItemSelectedListener
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
-
     private lateinit var spinner1: Spinner
     private lateinit var btnSubmit : Button
 
@@ -64,9 +63,6 @@ class MainActivity : AppCompatActivity() {
             }
             startActivity(intent)
         }
-
-
-
     }
 
 
