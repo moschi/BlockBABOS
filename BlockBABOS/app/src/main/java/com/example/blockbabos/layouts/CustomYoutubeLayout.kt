@@ -5,11 +5,13 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import android.widget.RelativeLayout
 import com.example.blockbabos.VideoActivity
+import com.example.blockbabos.listeners.Motion
 import com.example.blockbabos.listeners.Swipe
 
 class CustomYoutubeLayout : RelativeLayout {
     var swipe: Swipe = Swipe()
     var intercept = false
+    val motion = Motion()
 
     constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(
         context,
@@ -37,29 +39,42 @@ class CustomYoutubeLayout : RelativeLayout {
         if swipe    -> call onswipe function in videoactivity and intercept touchevents (e.g. the youtube view)
         else        -> dispatch event
     */
+
     override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
         when (ev.action) {
             MotionEvent.ACTION_DOWN -> moved = false
             MotionEvent.ACTION_MOVE -> moved = true
         }
+        println(motion)
+
         if (moved) {
+            this.setPadding(motion.getRight(), motion.getBottom(), motion.getLeft(), motion.getTop())
             if(!tobeReleased){
                 swipe.setDown(ev.x, ev.y)
                 tobeReleased = true
             }
+
             if (ev.action == MotionEvent.ACTION_UP) {
                 swipe.setUp(ev.x, ev.y)
                 type = swipe.getSwypeType()
                 val activity = context as VideoActivity
+                motion.reset()
+                this.setPadding(0,0,0,0)
                 activity.onSwipe(type)
                 tobeReleased = false
             }
             if (!tobeReleased  && type == Swipe.SwipeType.NONE) {
                 return super.dispatchTouchEvent(ev)
             }
+            val deltaX = swipe.downX - ev.x
+            val deltaY = swipe.downY - ev.y
+            motion.setLeft(deltaX.toInt())
+            motion.setRight(-deltaX.toInt())
+            motion.setBottom(-deltaY.toInt())
+            motion.setTop(deltaY.toInt())
+
             return this.intercept
         } else {
-
             return super.dispatchTouchEvent(ev)
         }
     }
