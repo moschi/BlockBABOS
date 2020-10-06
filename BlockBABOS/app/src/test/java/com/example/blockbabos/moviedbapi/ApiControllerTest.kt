@@ -14,6 +14,13 @@ class ApiControllerTest{
         Assert.assertNotNull(topRatedMovies)
     }
 
+    @Test
+    fun trailerLink(){
+        val link = restConverter.getTrailerLink(restConverter.getMostViewedMovies()[0])
+        println("link of top rated movie is: $link")
+        Assert.assertTrue(link != "")
+    }
+
 
 
 }

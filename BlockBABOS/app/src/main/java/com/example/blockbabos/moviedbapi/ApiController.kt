@@ -13,8 +13,18 @@ class ApiController {
 
     private val theMovieDbAApi = TheMovieDbApi(API_KEY, httpClient)
 
-    fun getTopRatedMovies():List<MovieInfo>{
+    fun getTopRatedMovies(): List<MovieInfo> {
         val topRatedMovies = theMovieDbAApi.getTopRatedMovies(1, LANGUAGE)
         return topRatedMovies.results
+    }
+
+    fun getMostViewedMovies(): List<MovieInfo> {
+        val mostViewed = theMovieDbAApi.getPopularMovieList(1, LANGUAGE)
+        return mostViewed.results
+    }
+
+    fun getTrailerLink(movieInfo: MovieInfo): String {
+        val movieVideos = theMovieDbAApi.getMovieVideos(movieInfo.id, LANGUAGE)
+        return movieVideos.results[0].key
     }
 }
