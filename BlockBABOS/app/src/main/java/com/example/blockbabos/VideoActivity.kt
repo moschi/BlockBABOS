@@ -12,9 +12,9 @@ import com.google.android.youtube.player.YouTubePlayerView
 
 class VideoActivity : YouTubeBaseActivity(){
 
-    var hardcodedVideoList = ArrayList<String>()
+    private var hardcodedVideoList = ArrayList<String>()
     lateinit var youtubePlayer :YouTubePlayer
-    var i = 0
+    private var i = 0
 
 
     //TODO fix reloading of video, everytime the phone gets turned
