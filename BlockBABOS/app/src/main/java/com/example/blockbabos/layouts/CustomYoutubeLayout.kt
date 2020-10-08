@@ -35,6 +35,8 @@ class CustomYoutubeLayout : RelativeLayout {
     Kind of a hacky solution for the problem, that the YoutubeActivity consumes all the MotionEvents and doesn't dispatch them back to the customView
     But hey.. It works
 
+    https://stackoverflow.com/questions/7449799/how-are-android-touch-events-delivered
+
     When there are multiple motionevents this method checks, whether it's a swipe or not
         if swipe    -> call onswipe function in videoactivity and intercept touchevents (e.g. the youtube view)
         else        -> dispatch event
