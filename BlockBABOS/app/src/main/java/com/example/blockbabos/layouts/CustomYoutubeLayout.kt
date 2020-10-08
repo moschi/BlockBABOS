@@ -4,7 +4,10 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.widget.RelativeLayout
-import com.example.blockbabos.VideoActivity
+import androidx.fragment.app.findFragment
+import com.example.blockbabos.MainActivity
+import com.example.blockbabos.R
+import com.example.blockbabos.VideoFragment2
 import com.example.blockbabos.listeners.Motion
 import com.example.blockbabos.listeners.Swipe
 
@@ -57,7 +60,7 @@ class CustomYoutubeLayout : RelativeLayout {
             if (ev.action == MotionEvent.ACTION_UP) {
                 swipe.setUp(ev.x, ev.y)
                 type = swipe.getSwypeType()
-                val activity = context as VideoActivity
+                val activity  = context as MainActivity
                 motion.reset()
                 this.setPadding(0,0,0,0)
                 activity.onSwipe(type)

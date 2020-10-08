@@ -12,8 +12,8 @@
 
     <string name="menu_home">Home</string>
     <string name="menu_settings">Settings</string>
-<!--    <string name="menu_gallery">Gallery</string>-->
-<!--    <string name="menu_slideshow">Slideshow</string>-->
+    <!--    <string name="menu_gallery">Gallery</string>-->
+    <!--    <string name="menu_slideshow">Slideshow</string>-->
     <string name="category_prompt">Choose a category</string>
 
     <string-array name="category_array">
@@ -26,4 +26,6 @@
         <item>Category7</item>
         <item>InCategory8</item>
     </string-array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

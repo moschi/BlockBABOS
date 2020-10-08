@@ -14,13 +14,13 @@
         app:title="@string/home"
         style="@style/Widget.MaterialComponents.Toolbar.Primary" />
 
-    <include
-        layout="@layout/app_bar_main"
+    <FrameLayout
+        android:id="@+id/main_fragment_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/toolbar"
-        android:layout_above="@id/bottom_navigation"
-        android:layout_centerHorizontal="true" />
+        android:layout_above="@id/bottom_navigation" />
+
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:layout_width="match_parent"
