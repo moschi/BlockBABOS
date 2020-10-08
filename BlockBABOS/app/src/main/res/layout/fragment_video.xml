@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:id="@+id/video_fragment_container"
+tools:context=".VideoFragment">
+
+<com.example.blockbabos.layouts.CustomYoutubeLayout
+    android:id="@+id/video_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:clickable="true"
+    tools:openDrawer="start"
+    android:focusable="true"
+    android:layout_marginTop="56dp">
+
+    <FrameLayout
+        android:id="@+id/video_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolbar"
+        android:layout_above="@id/bottom_navigation" />
+
+</com.example.blockbabos.layouts.CustomYoutubeLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
