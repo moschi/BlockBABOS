@@ -16,6 +16,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.example.blockbabos.dropdown.DropdownOnItemSelectedListener
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
 
@@ -27,21 +28,39 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val toolbar: Toolbar = findViewById(R.id.toolbar)
-        setSupportActionBar(toolbar)
+        //setSupportActionBar(toolbar)
+
+        var bottomNavigation: BottomNavigationView = findViewById(R.id.bottom_navigation);
+
+        bottomNavigation.setOnNavigationItemSelectedListener { item ->
+            when(item.itemId) {
+                R.id.nav_home -> {
+                    val intent = Intent(this, VideoActivity::class.java).apply {
+                    }
+                    startActivity(intent)
+                    true
+                }
+                R.id.nav_lists -> {
+
+                    true
+                }
+                else -> false
+            }
+        }
 
         addListenerOnButton();
         addListenerOnSpinnerItemSelection();
 
 
-        val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
-        val navView: NavigationView = findViewById(R.id.nav_view)
-        val navController = findNavController(R.id.nav_host_fragment)
+        //val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
+        val navView: BottomNavigationView = findViewById(R.id.bottom_navigation)
+        /*val navController = findNavController(R.id.nav_host_fragment)
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(setOf(
-                R.id.nav_home/*, R.id.nav_gallery, R.id.nav_slideshow*/), drawerLayout)
+                R.id.nav_home*//*, R.id.nav_gallery, R.id.nav_slideshow*//*), drawerLayout)
         setupActionBarWithNavController(navController, appBarConfiguration)
-        navView.setupWithNavController(navController)
+        navView.setupWithNavController(navController)*/
     }
 
     fun addListenerOnSpinnerItemSelection() {
@@ -71,8 +90,8 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
-    override fun onSupportNavigateUp(): Boolean {
+    /*override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
-    }
+    }*/
 }
