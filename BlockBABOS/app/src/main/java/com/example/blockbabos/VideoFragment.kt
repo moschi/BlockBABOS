@@ -2,20 +2,21 @@ package com.example.blockbabos
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.FragmentTransaction
+import androidx.fragment.app.Fragment
 import com.example.blockbabos.listeners.Swipe
 import com.example.blockbabos.moviedbapi.ApiController
-import com.google.android.youtube.player.YouTubeInitializationResult
-import com.google.android.youtube.player.YouTubePlayer
-import com.google.android.youtube.player.YouTubePlayerSupportFragment
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.YouTubePlayerCallback
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 import java.util.concurrent.Executor
 import java.util.concurrent.Executors
 import kotlin.math.abs
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -32,8 +33,8 @@ class VideoFragment2 : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
+    lateinit var youtubePlayer: YouTubePlayer
     private var hardcodedVideoList = ArrayList<String>()
-    lateinit var youtubePlayer : YouTubePlayer
     private var i = 0
     private val apiController = ApiController()
 
@@ -45,7 +46,7 @@ class VideoFragment2 : Fragment() {
         }
     }
 
-    fun generateRandomIndex(max: Int):Int{
+    private fun generateRandomIndex(max: Int): Int {
         return abs(Math.random() * max).toInt()
     }
 
@@ -55,8 +56,13 @@ class VideoFragment2 : Fragment() {
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState);
         // Inflate the layout for this fragment
-        val fragment: View = inflater.inflate(R.layout.fragment_video, container, false)
+        return inflater.inflate(R.layout.fragment_video, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         val executor: Executor = Executors.newSingleThreadExecutor()
+
         executor.execute {
             val mostViewedMovies = apiController.getMostViewedMovies()
             val max = mostViewedMovies.size
@@ -73,7 +79,6 @@ class VideoFragment2 : Fragment() {
             val link5 =
                 apiController.getTrailerLinks(mostViewedMovies[generateRandomIndex(max)])[0].key
 
-
             hardcodedVideoList.add(link1)
             hardcodedVideoList.add(link2)
             hardcodedVideoList.add(link3)
@@ -81,43 +86,28 @@ class VideoFragment2 : Fragment() {
             hardcodedVideoList.add(link5)
         }
 
-        var youTubePlayerFragment : YouTubePlayerSupportFragment = YouTubePlayerSupportFragment.newInstance()
+        val youTubePlayerView: YouTubePlayerView =
+            view.findViewById(R.id.youtube_player) as YouTubePlayerView
 
-        youTubePlayerFragment.initialize("YOUR API KEY",
-            object : YouTubePlayer.OnInitializedListener {
-                override fun onInitializationSuccess(
-                    provider: YouTubePlayer.Provider,
-                    youTubePlayer: YouTubePlayer, b: Boolean
-                ) {
-                    youtubePlayer = youTubePlayer
-                    youTubePlayer.cueVideo("N1WRualRBOQ-feE")
-                    youTubePlayer.setShowFullscreenButton(false)
-                    youTubePlayer.setPlayerStyle(YouTubePlayer.PlayerStyle.MINIMAL)
+        lifecycle.addObserver(youTubePlayerView)
 
-                    youTubePlayer.play()
-                }
-
-                override fun onInitializationFailure(
-                    provider: YouTubePlayer.Provider,
-                    youTubeInitializationResult: YouTubeInitializationResult
-                ) {
-                    println(youTubeInitializationResult)
-                    println("ERROR OCCURRED")
-                }
-            })
-        val transaction: FragmentTransaction = childFragmentManager.beginTransaction()
-        transaction.replace(R.id.video_fragment , youTubePlayerFragment as Fragment).commit()
-        return fragment
+        youTubePlayerView.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
+            override fun onReady(youTubePlayer: YouTubePlayer) {
+                val videoId = hardcodedVideoList[0]
+                youtubePlayer = youTubePlayer
+                youTubePlayer.loadVideo(videoId, 0f)
+            }
+        })
     }
 
 
-    fun onSwipe(type: Swipe.SwipeType){
+    fun onSwipe(type: Swipe.SwipeType) {
         val logTag = "WHATEVER"
 
         fun onRightToLeftSwipe() {
             Log.i(logTag, "RightToLeftSwipe!")
             Toast.makeText(activity, "RightToLeftSwipe", Toast.LENGTH_SHORT).show()
-            youtubePlayer.cueVideo(hardcodedVideoList[i--])
+            youtubePlayer.cueVideo(hardcodedVideoList[i--], 0F)
             youtubePlayer.play()
 
         }
@@ -126,7 +116,7 @@ class VideoFragment2 : Fragment() {
             Log.i(logTag, "LeftToRightSwipe!")
             Toast.makeText(activity, "LeftToRightSwipe", Toast.LENGTH_SHORT).show()
 
-            youtubePlayer.cueVideo(hardcodedVideoList[i++])
+            youtubePlayer.cueVideo(hardcodedVideoList[i++], 0F)
             youtubePlayer.play()
 
         }
@@ -141,7 +131,7 @@ class VideoFragment2 : Fragment() {
             Toast.makeText(activity, "onBottomToTopSwipe", Toast.LENGTH_SHORT).show()
         }
 
-        when(type){
+        when (type) {
             Swipe.SwipeType.UP -> onBottomToTopSwipe()
             Swipe.SwipeType.DOWN -> onTopToBottomSwipe()
             Swipe.SwipeType.LEFT -> onRightToLeftSwipe()

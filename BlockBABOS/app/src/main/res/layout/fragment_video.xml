@@ -6,7 +6,7 @@ xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
 android:id="@+id/video_fragment_container"
-tools:context=".VideoFragment">
+tools:context=".VideoFragment2">
 
 <com.example.blockbabos.layouts.CustomYoutubeLayout
     android:id="@+id/video_layout"
@@ -18,12 +18,16 @@ tools:context=".VideoFragment">
     android:focusable="true"
     android:layout_marginTop="56dp">
 
-    <FrameLayout
-        android:id="@+id/video_fragment"
+    <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
+        android:id="@+id/youtube_player"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/toolbar"
-        android:layout_above="@id/bottom_navigation" />
+        android:layout_height="wrap_content" />
+<!--    <FrameLayout-->
+<!--        android:id="@+id/video_fragment"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_below="@id/toolbar"-->
+<!--        android:layout_above="@id/bottom_navigation" />-->
 
 </com.example.blockbabos.layouts.CustomYoutubeLayout>
 
