@@ -11,7 +11,6 @@ import com.example.blockbabos.listeners.Swipe
 import com.example.blockbabos.moviedbapi.ApiController
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.YouTubePlayerCallback
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 import java.util.concurrent.Executor
 import java.util.concurrent.Executors
@@ -25,10 +24,10 @@ private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
- * Use the [VideoFragment2.newInstance] factory method to
+ * Use the [VideoFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class VideoFragment2 : Fragment() {
+class VideoFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -152,7 +151,7 @@ class VideoFragment2 : Fragment() {
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            VideoFragment2().apply {
+            VideoFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)

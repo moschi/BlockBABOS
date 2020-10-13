@@ -4,17 +4,14 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.widget.RelativeLayout
-import androidx.fragment.app.findFragment
 import com.example.blockbabos.MainActivity
-import com.example.blockbabos.R
-import com.example.blockbabos.VideoFragment2
 import com.example.blockbabos.listeners.Motion
 import com.example.blockbabos.listeners.Swipe
 
 class CustomYoutubeLayout : RelativeLayout {
-    var swipe: Swipe = Swipe()
-    var intercept = false
-    val motion = Motion()
+    private var swipe: Swipe = Swipe()
+    private var intercept = false
+    private val motion = Motion()
 
     constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(
         context,

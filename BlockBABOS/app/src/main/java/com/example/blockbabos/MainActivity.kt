@@ -14,25 +14,18 @@ import com.example.blockbabos.listeners.Swipe
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
-
-    private lateinit var appBarConfiguration: AppBarConfiguration
-    private lateinit var spinner1: Spinner
-    private lateinit var btnSubmit : Button
-    private lateinit var videoFragment : VideoFragment2
+    private lateinit var videoFragment : VideoFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val toolbar: Toolbar = findViewById(R.id.toolbar)
         var bottomNavigation: BottomNavigationView = findViewById(R.id.bottom_navigation);
 
         val mgr: FragmentManager = supportFragmentManager
-
-        //setSupportActionBar(toolbar)
         bottomNavigation.setOnNavigationItemSelectedListener { item ->
             when(item.itemId) {
                 R.id.nav_home -> {
-                    videoFragment = VideoFragment2.newInstance("bla", "bla")
+                    videoFragment = VideoFragment.newInstance("bla", "bla")
                     val trans: FragmentTransaction = mgr.beginTransaction()
                     trans.replace(R.id.main_fragment_container, videoFragment)
                     trans.commit()
