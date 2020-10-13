@@ -1,5 +1,4 @@
-build/
-release/
-.gitignore/
-.idea/
-.gradle/
+build/*
+release/*
+.idea/*
+.gradle/*
