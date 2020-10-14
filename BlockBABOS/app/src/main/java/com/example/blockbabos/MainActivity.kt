@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.widget.Button
 import android.widget.Spinner
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
@@ -11,10 +12,13 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import androidx.navigation.ui.AppBarConfiguration
 import com.example.blockbabos.listeners.Swipe
+import com.example.blockbabos.model.BaboMovie
+import com.example.blockbabos.model.SwipeResult
+import com.example.blockbabos.persistence.BaboMovieRoomDatabase
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var videoFragment : VideoFragment
+    private lateinit var videoFragment: VideoFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,7 +27,7 @@ class MainActivity : AppCompatActivity() {
 
         val mgr: FragmentManager = supportFragmentManager
         bottomNavigation.setOnNavigationItemSelectedListener { item ->
-            when(item.itemId) {
+            when (item.itemId) {
                 R.id.nav_home -> {
                     videoFragment = VideoFragment.newInstance("bla", "bla")
                     val trans: FragmentTransaction = mgr.beginTransaction()
@@ -42,7 +46,6 @@ class MainActivity : AppCompatActivity() {
                 else -> false
             }
         }
-
     }
 
     fun onSwipe(type: Swipe.SwipeType) {

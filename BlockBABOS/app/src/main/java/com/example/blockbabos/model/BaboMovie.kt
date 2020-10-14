@@ -1,7 +1,19 @@
 package com.example.blockbabos.model
 
-class BaboMovie{
-    var movieDbApiId :Int = 0
-    lateinit var title : String
-    lateinit var result : SwipeResult
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import androidx.room.TypeConverters
+
+@Entity
+class BaboMovie {
+    @PrimaryKey
+    var movieDbApiId: Int = 0
+
+    @ColumnInfo
+    lateinit var title: String
+
+    @ColumnInfo
+    @TypeConverters(SwipeResultConverter::class)
+    lateinit var result: SwipeResult
 }
