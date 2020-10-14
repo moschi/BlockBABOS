@@ -14,6 +14,7 @@ import com.omertron.themoviedbapi.model.media.Video
 import com.omertron.themoviedbapi.model.movie.MovieInfo
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.utils.YouTubePlayerTracker
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.Executor
@@ -26,6 +27,9 @@ import kotlin.math.abs
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
+private const val TIME_PLAYED = "TIME_PLAYED"
+private const val TITLE = "TITLE"
+private const val TO_BE_PLAYED = "TO_BE_PLAYED"
 /**
  * A simple [Fragment] subclass.
  * Use the [VideoFragment.newInstance] factory method to
@@ -36,20 +40,33 @@ class VideoFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
+
+
     lateinit var youtubePlayer: YouTubePlayer
+    var youtubeTracker  = YouTubePlayerTracker()
 
     private val apiController = ApiController()
-    private var currentPlayedVideo: MovieInfo? = null
     private var nextPlayedVideo: MovieInfo? = null
+
+    private var playTime = 0F
+    private var title = ""
+    private var toBePlayed = ""
 
     private lateinit var toolbar: MaterialToolbar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if(savedInstanceState != null){
+            println(savedInstanceState)
+            playTime = savedInstanceState.getFloat(TIME_PLAYED)
+            title = savedInstanceState.getString(TITLE)!!
+            toBePlayed = savedInstanceState.getString(TO_BE_PLAYED)!!
+        }
         arguments?.let {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
+
     }
 
     private fun generateRandomIndex(max: Int): Int {
@@ -75,25 +92,30 @@ class VideoFragment : Fragment() {
         youTubePlayerView.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
             override fun onReady(youTubePlayer: YouTubePlayer) {
                 youtubePlayer = youTubePlayer
-                val nextVideo = getNextVideoToShow()
-                showYoutubeVideo(nextVideo)
-
+                youtubePlayer.addListener(youtubeTracker)
+                if(toBePlayed == ""){
+                    val nextVideo = nextVideo()
+                    showYoutubeVideo(nextVideo[0].key)
+                }else{
+                    showYoutubeVideo(toBePlayed)
+                }
             }
         })
     }
 
-    private fun getNextVideoToShow(): List<Video> {
+
+    private fun nextVideo(): List<Video> {
         val fetchVideosLatch = CountDownLatch(1)
 
         var videoList = ArrayList<MovieInfo>()
         var nextVideoToShow = ArrayList<Video>()
         val executor: Executor = Executors.newSingleThreadExecutor()
+        val currentPlayedVideo: MovieInfo?
 
         executor.execute {
             videoList = apiController.getMostViewedMovies() as ArrayList<MovieInfo>
             fetchVideosLatch.countDown()
         }
-
         fetchVideosLatch.await()
 
         val max = videoList.size
@@ -102,6 +124,8 @@ class VideoFragment : Fragment() {
         } else {
             currentPlayedVideo = videoList[generateRandomIndex(max)]
         }
+        title = currentPlayedVideo?.title ?: ""
+
         nextPlayedVideo = videoList[generateRandomIndex(max)]
 
         val fetchLinksLatch = CountDownLatch(1)
@@ -109,16 +133,18 @@ class VideoFragment : Fragment() {
         executor.execute {
             nextVideoToShow =
                 apiController.getTrailerLinks(currentPlayedVideo as MovieInfo) as ArrayList<Video>
+            toBePlayed = nextVideoToShow[0].key
             fetchLinksLatch.countDown()
         }
-        fetchLinksLatch.await()
 
+        fetchLinksLatch.await()
         return nextVideoToShow
     }
 
-    private fun showYoutubeVideo(nextVideo: List<Video>) {
-        toolbar.title = currentPlayedVideo?.title
-        youtubePlayer.loadVideo(nextVideo[0].key, 0F)
+    private fun showYoutubeVideo(nextVideoUri: String) {
+        toolbar.title = title
+        youtubePlayer.loadVideo(nextVideoUri, playTime)
+        playTime = 0F
         youtubePlayer.play()
     }
 
@@ -129,13 +155,13 @@ class VideoFragment : Fragment() {
         fun onRightToLeftSwipe() {
             Log.i(logTag, "RightToLeftSwipe!")
             Toast.makeText(activity, "RightToLeftSwipe", Toast.LENGTH_SHORT).show()
-            showYoutubeVideo(getNextVideoToShow())
+            showYoutubeVideo(nextVideo()[0].key)
         }
 
         fun onLeftToRightSwipe() {
             Log.i(logTag, "LeftToRightSwipe!")
             Toast.makeText(activity, "LeftToRightSwipe", Toast.LENGTH_SHORT).show()
-            showYoutubeVideo(getNextVideoToShow())
+            showYoutubeVideo(nextVideo()[0].key)
 
         }
 
@@ -176,5 +202,12 @@ class VideoFragment : Fragment() {
                     putString(ARG_PARAM2, param2)
                 }
             }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putFloat(TIME_PLAYED, youtubeTracker.currentSecond)
+        outState.putString(TO_BE_PLAYED, toBePlayed)
+        outState.putString(TITLE, title)
     }
 }
