@@ -19,9 +19,10 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        var bottomNavigation: BottomNavigationView = findViewById(R.id.bottom_navigation);
+        val bottomNavigation: BottomNavigationView = findViewById(R.id.bottom_navigation)
 
         val mgr: FragmentManager = supportFragmentManager
+        //TODO videoFragment not initialized when "onCreate" because of orientation change
         bottomNavigation.setOnNavigationItemSelectedListener { item ->
             when(item.itemId) {
                 R.id.nav_home -> {
@@ -46,7 +47,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun onSwipe(type: Swipe.SwipeType) {
-        videoFragment.onSwipe(type);
+        //TODO if above fixed, RemoveMe
+        if(this::videoFragment.isInitialized){
+            videoFragment.onSwipe(type)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
