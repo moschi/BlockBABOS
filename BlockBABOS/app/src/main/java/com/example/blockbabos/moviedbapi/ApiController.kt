@@ -28,7 +28,7 @@ class ApiController {
     private val TOP_RATED = "movie/top_rated"
     private val POPULAR = "movie/popular"
     val mapper: ObjectMapper = jacksonObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false).configure(
-        JsonParser.Feature.AUTO_CLOSE_SOURCE, true)
+        JsonParser.Feature.AUTO_CLOSE_SOURCE, true);
 
 
     fun createRequest (uri:String): ClassicHttpRequest{
