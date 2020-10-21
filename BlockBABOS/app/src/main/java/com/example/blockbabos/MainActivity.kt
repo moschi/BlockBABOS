@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.nav_lists -> {
-                    val listFragment: Fragment = ListFragment.newInstance("bla", "bli")
+                    val listFragment: Fragment = ListFragment.newInstance(1)
                     val trans: FragmentTransaction = mgr.beginTransaction()
                     trans.replace(R.id.main_fragment_container, listFragment)
                     trans.commit()
