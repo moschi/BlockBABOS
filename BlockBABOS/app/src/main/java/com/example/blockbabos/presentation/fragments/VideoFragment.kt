@@ -5,11 +5,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.example.blockbabos.R
 import com.example.blockbabos.domain.listeners.Swipe
 import com.example.blockbabos.domain.moviedbapi.ApiController
+import com.example.blockbabos.persistence.BaboMovieRoomDatabase
 import com.google.android.material.appbar.MaterialToolbar
 import com.omertron.themoviedbapi.model.media.Video
 import com.omertron.themoviedbapi.model.movie.MovieInfo
@@ -25,6 +26,7 @@ import kotlin.math.abs
 private const val TIME_PLAYED = "TIME_PLAYED"
 private const val TITLE = "TITLE"
 private const val TO_BE_PLAYED = "TO_BE_PLAYED"
+private const val CURRENT_PLAYED_MOVIE_ID = "CURRENT_PLAYED_MOVIE_ID"
 
 /**
  * A simple [Fragment] subclass.
@@ -32,18 +34,14 @@ private const val TO_BE_PLAYED = "TO_BE_PLAYED"
  * create an instance of this fragment.
  */
 class VideoFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
     private lateinit var swipeViewModel: SwipeViewModel
-
-
     lateinit var youtubePlayer: YouTubePlayer
     var youtubeTracker = YouTubePlayerTracker()
 
     private val apiController = ApiController()
     private var nextPlayedVideo: MovieInfo? = null
+    private lateinit var currentPlayedVideo : MovieInfo
+    private var currentPlayedMovieId = 0
 
     private var playTime = 0F
     private var title = ""
@@ -58,8 +56,8 @@ class VideoFragment : Fragment() {
             title = savedInstanceState.getString(TITLE)!!
             toBePlayed = savedInstanceState.getString(TO_BE_PLAYED)!!
         }
-        var application = requireNotNull(this.activity).application
-        var dataSource = BaboMovieRoomDatabase.getDatabase(application).baboMovieDao()
+        val application = requireNotNull(this.activity).application
+        val dataSource = BaboMovieRoomDatabase.getDatabase(application).baboMovieDao()
         swipeViewModel =
             ViewModelProvider(this, SwipeViewModelFactory(dataSource, application)).get(
                 SwipeViewModel::class.java
@@ -99,7 +97,6 @@ class VideoFragment : Fragment() {
         })
     }
 
-    private lateinit var currentPlayedVideo: MovieInfo
 
     private fun nextVideo(): List<Video> {
         val fetchVideosLatch = CountDownLatch(1)
@@ -120,7 +117,8 @@ class VideoFragment : Fragment() {
         } else {
             currentPlayedVideo = videoList[generateRandomIndex(max)]
         }
-        title = currentPlayedVideo?.title ?: ""
+        title = currentPlayedVideo.title ?: ""
+        currentPlayedMovieId = currentPlayedVideo.id
 
         nextPlayedVideo = videoList[generateRandomIndex(max)]
 
@@ -128,7 +126,7 @@ class VideoFragment : Fragment() {
 
         executor.execute {
             nextVideoToShow =
-                apiController.getTrailerLinks(currentPlayedVideo as MovieInfo) as ArrayList<Video>
+                apiController.getTrailerLinks(currentPlayedVideo) as ArrayList<Video>
             toBePlayed = nextVideoToShow[0].key
             fetchLinksLatch.countDown()
         }
@@ -138,7 +136,7 @@ class VideoFragment : Fragment() {
     }
 
     private fun showYoutubeVideo(nextVideoUri: String) {
-        swipeViewModel.setCurrentMovie(currentPlayedVideo)
+        swipeViewModel.setCurrentMovie(currentPlayedMovieId, title)
         toolbar.title = title
         youtubePlayer.loadVideo(nextVideoUri, playTime)
         playTime = 0F
@@ -152,16 +150,13 @@ class VideoFragment : Fragment() {
             fun onRightToLeftSwipe() {
                 Log.i(logTag, "RightToLeftSwipe!")
                 swipeViewModel.onSwipeLeft()
-
                 showYoutubeVideo(nextVideo()[0].key)
             }
 
             fun onLeftToRightSwipe() {
                 Log.i(logTag, "LeftToRightSwipe!")
                 swipeViewModel.onSwipeRight()
-
                 showYoutubeVideo(nextVideo()[0].key)
-
             }
 
             fun onTopToBottomSwipe() {
@@ -188,8 +183,6 @@ class VideoFragment : Fragment() {
          * Use this factory method to create a new instance of
          * this fragment using the provided parameters.
          *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
          * @return A new instance of fragment VideoFragment.
          */
         // TODO: Rename and change types and number of parameters
@@ -203,5 +196,6 @@ class VideoFragment : Fragment() {
         outState.putFloat(TIME_PLAYED, youtubeTracker.currentSecond)
         outState.putString(TO_BE_PLAYED, toBePlayed)
         outState.putString(TITLE, title)
+        outState.putInt(CURRENT_PLAYED_MOVIE_ID, currentPlayedMovieId)
     }
 }

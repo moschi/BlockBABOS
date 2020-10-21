@@ -12,17 +12,13 @@ import com.example.blockbabos.domain.model.SwipeResultConverter
 @Database(entities = [BaboMovie::class], version = 1, exportSchema = false)
 @TypeConverters(SwipeResultConverter::class)
 abstract class BaboMovieRoomDatabase : RoomDatabase() {
-
     abstract fun baboMovieDao(): BaboMovieDao
-
     companion object {
-        // Singleton prevents multiple instances of database opening at the
-        // same time.
         @Volatile
         private var INSTANCE: BaboMovieRoomDatabase? = null
 
         var TEST_MODE = false
-        private val databaseName = "babomovie_database"
+        private const val DATABASE_NAME = "babomovie_database"
 
         fun getDatabase(context: Context): BaboMovieRoomDatabase {
             val tempInstance = INSTANCE
@@ -41,7 +37,7 @@ abstract class BaboMovieRoomDatabase : RoomDatabase() {
                     val instance = Room.databaseBuilder(
                         context.applicationContext,
                         BaboMovieRoomDatabase::class.java,
-                        databaseName
+                        DATABASE_NAME
                     ).allowMainThreadQueries().build()
                     // todo: allowMainThreadQueries needs to be removed as it is not recommended (except for tests)
                     INSTANCE = instance
