@@ -42,7 +42,8 @@ abstract class BaboMovieRoomDatabase : RoomDatabase() {
                         context.applicationContext,
                         BaboMovieRoomDatabase::class.java,
                         databaseName
-                    ).build()
+                    ).allowMainThreadQueries().build()
+                    // todo: allowMainThreadQueries needs to be removed as it is not recommended (except for tests)
                     INSTANCE = instance
                     return instance
                 }

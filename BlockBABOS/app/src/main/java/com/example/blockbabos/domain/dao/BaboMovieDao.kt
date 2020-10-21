@@ -1,5 +1,6 @@
 package com.example.blockbabos.domain.dao
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.example.blockbabos.domain.model.BaboMovie
 
@@ -17,6 +18,9 @@ interface BaboMovieDao {
 
     @Query("SELECT * FROM BaboMovie WHERE result = 2 ORDER BY movieDbApiId DESC")
     fun getSuperliked(): List<BaboMovie>
+
+    @Query("SELECT * from BaboMovie WHERE movieDbApiId = :key")
+    suspend fun get(key: Int): BaboMovie?
 
     @Insert
     fun insert(entry: BaboMovie)
