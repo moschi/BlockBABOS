@@ -3,9 +3,9 @@ package com.example.blockbabos.persistence
 import android.util.Log
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.example.blockbabos.dao.BaboMovieDao
-import com.example.blockbabos.model.BaboMovie
-import com.example.blockbabos.model.SwipeResult
+import com.example.blockbabos.domain.dao.BaboMovieDao
+import com.example.blockbabos.domain.model.BaboMovie
+import com.example.blockbabos.domain.model.SwipeResult
 import org.junit.After
 import org.junit.Assert
 import org.junit.Before

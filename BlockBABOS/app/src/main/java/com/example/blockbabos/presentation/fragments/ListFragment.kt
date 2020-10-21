@@ -1,6 +1,5 @@
-package com.example.blockbabos
+package com.example.blockbabos.presentation.fragments
 
-import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,9 +8,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.blockbabos.dao.BaboMovieDao
-import com.example.blockbabos.dummy.DummyContent
-import com.example.blockbabos.model.BaboMovie
+import com.example.blockbabos.presentation.MyBaboMovieRecyclerViewAdapter
+import com.example.blockbabos.R
+import com.example.blockbabos.domain.dao.BaboMovieDao
+import com.example.blockbabos.domain.dummy.DummyContent
 import com.example.blockbabos.persistence.BaboMovieRoomDatabase
 
 // TODO: Rename parameter arguments, choose names that match

@@ -1,13 +1,14 @@
-package com.example.blockbabos
+package com.example.blockbabos.presentation
 
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import com.example.blockbabos.R
 
-import com.example.blockbabos.dummy.DummyContent.DummyItem
-import com.example.blockbabos.model.BaboMovie
+import com.example.blockbabos.domain.dummy.DummyContent.DummyItem
+import com.example.blockbabos.domain.model.BaboMovie
 
 /**
  * [RecyclerView.Adapter] that can display a [DummyItem].

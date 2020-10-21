@@ -5,9 +5,9 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.example.blockbabos.dao.BaboMovieDao
-import com.example.blockbabos.model.BaboMovie
-import com.example.blockbabos.model.SwipeResultConverter
+import com.example.blockbabos.domain.dao.BaboMovieDao
+import com.example.blockbabos.domain.model.BaboMovie
+import com.example.blockbabos.domain.model.SwipeResultConverter
 
 @Database(entities = [BaboMovie::class], version = 1, exportSchema = false)
 @TypeConverters(SwipeResultConverter::class)

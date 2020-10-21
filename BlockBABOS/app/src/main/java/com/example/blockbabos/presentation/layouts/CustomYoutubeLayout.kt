@@ -1,12 +1,12 @@
-package com.example.blockbabos.layouts
+package com.example.blockbabos.presentation.layouts
 
 import android.content.Context
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.widget.RelativeLayout
-import com.example.blockbabos.MainActivity
-import com.example.blockbabos.listeners.Motion
-import com.example.blockbabos.listeners.Swipe
+import com.example.blockbabos.presentation.MainActivity
+import com.example.blockbabos.domain.listeners.Motion
+import com.example.blockbabos.domain.listeners.Swipe
 
 class CustomYoutubeLayout : RelativeLayout {
     private var swipe: Swipe = Swipe()

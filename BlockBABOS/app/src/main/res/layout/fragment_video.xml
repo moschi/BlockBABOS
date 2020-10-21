@@ -6,9 +6,9 @@ xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
 android:id="@+id/video_fragment_container"
-tools:context=".VideoFragment">
+tools:context=".presentation.fragments.VideoFragment">
 
-<com.example.blockbabos.layouts.CustomYoutubeLayout
+<com.example.blockbabos.presentation.layouts.CustomYoutubeLayout
     android:id="@+id/video_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -21,6 +21,6 @@ tools:context=".VideoFragment">
         android:id="@+id/youtube_player"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
-</com.example.blockbabos.layouts.CustomYoutubeLayout>
+</com.example.blockbabos.presentation.layouts.CustomYoutubeLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,4 +1,4 @@
-package com.example.blockbabos
+package com.example.blockbabos.presentation.fragments
 
 import android.os.Bundle
 import android.util.Log
@@ -7,8 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import com.example.blockbabos.listeners.Swipe
-import com.example.blockbabos.moviedbapi.ApiController
+import com.example.blockbabos.R
+import com.example.blockbabos.domain.listeners.Swipe
+import com.example.blockbabos.domain.moviedbapi.ApiController
 import com.google.android.material.appbar.MaterialToolbar
 import com.omertron.themoviedbapi.model.media.Video
 import com.omertron.themoviedbapi.model.movie.MovieInfo

@@ -1,4 +1,4 @@
-package com.example.blockbabos.ui.home
+package com.example.blockbabos.presentation.ui.home
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

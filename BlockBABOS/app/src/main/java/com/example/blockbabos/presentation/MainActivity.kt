@@ -1,20 +1,15 @@
-package com.example.blockbabos
+package com.example.blockbabos.presentation
 
 import android.os.Bundle
 import android.view.Menu
-import android.widget.Button
-import android.widget.Spinner
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
-import androidx.navigation.ui.AppBarConfiguration
-import com.example.blockbabos.listeners.Swipe
-import com.example.blockbabos.model.BaboMovie
-import com.example.blockbabos.model.SwipeResult
-import com.example.blockbabos.persistence.BaboMovieRoomDatabase
+import com.example.blockbabos.R
+import com.example.blockbabos.domain.listeners.Swipe
+import com.example.blockbabos.presentation.fragments.ListFragment
+import com.example.blockbabos.presentation.fragments.VideoFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {

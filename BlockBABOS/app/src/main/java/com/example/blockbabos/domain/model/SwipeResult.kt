@@ -1,4 +1,4 @@
-package com.example.blockbabos.model
+package com.example.blockbabos.domain.model
 
 import androidx.room.TypeConverter
 

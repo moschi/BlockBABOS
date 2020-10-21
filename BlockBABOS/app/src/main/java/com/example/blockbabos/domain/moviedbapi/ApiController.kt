@@ -1,6 +1,5 @@
-package com.example.blockbabos.moviedbapi
+package com.example.blockbabos.domain.moviedbapi
 
-import android.os.AsyncTask
 import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper

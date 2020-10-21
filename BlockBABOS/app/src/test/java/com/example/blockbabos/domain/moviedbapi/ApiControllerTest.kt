@@ -1,4 +1,4 @@
-package com.example.blockbabos.moviedbapi
+package com.example.blockbabos.domain.moviedbapi
 
 import org.junit.Assert
 import org.junit.Test

@@ -1,6 +1,6 @@
-package com.example.blockbabos.dummy
+package com.example.blockbabos.domain.dummy
 
-import com.example.blockbabos.model.BaboMovie
+import com.example.blockbabos.domain.model.BaboMovie
 import java.util.ArrayList
 import java.util.HashMap
 

@@ -1,7 +1,7 @@
-package com.example.blockbabos.dao
+package com.example.blockbabos.domain.dao
 
 import androidx.room.*
-import com.example.blockbabos.model.BaboMovie
+import com.example.blockbabos.domain.model.BaboMovie
 
 @Dao
 interface BaboMovieDao {
