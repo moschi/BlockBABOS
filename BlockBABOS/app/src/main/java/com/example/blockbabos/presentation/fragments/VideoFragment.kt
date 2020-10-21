@@ -36,6 +36,9 @@ class VideoFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
+    private lateinit var swipeViewModel: SwipeViewModel
+
+
     lateinit var youtubePlayer: YouTubePlayer
     var youtubeTracker = YouTubePlayerTracker()
 
@@ -55,6 +58,13 @@ class VideoFragment : Fragment() {
             title = savedInstanceState.getString(TITLE)!!
             toBePlayed = savedInstanceState.getString(TO_BE_PLAYED)!!
         }
+        var application = requireNotNull(this.activity).application
+        var dataSource = BaboMovieRoomDatabase.getDatabase(application).baboMovieDao()
+        swipeViewModel =
+            ViewModelProvider(this, SwipeViewModelFactory(dataSource, application)).get(
+                SwipeViewModel::class.java
+            )
+        Log.i("VideoFragment", "created swipeViewModel")
     }
 
     private fun generateRandomIndex(max: Int): Int {
@@ -89,13 +99,14 @@ class VideoFragment : Fragment() {
         })
     }
 
+    private lateinit var currentPlayedVideo: MovieInfo
+
     private fun nextVideo(): List<Video> {
         val fetchVideosLatch = CountDownLatch(1)
 
         var videoList = ArrayList<MovieInfo>()
         var nextVideoToShow = ArrayList<Video>()
         val executor: Executor = Executors.newSingleThreadExecutor()
-        val currentPlayedVideo: MovieInfo?
 
         executor.execute {
             videoList = apiController.getMostViewedMovies() as ArrayList<MovieInfo>
@@ -105,7 +116,7 @@ class VideoFragment : Fragment() {
 
         val max = videoList.size
         if (nextPlayedVideo != null) {
-            currentPlayedVideo = nextPlayedVideo
+            currentPlayedVideo = nextPlayedVideo as MovieInfo
         } else {
             currentPlayedVideo = videoList[generateRandomIndex(max)]
         }
@@ -127,6 +138,7 @@ class VideoFragment : Fragment() {
     }
 
     private fun showYoutubeVideo(nextVideoUri: String) {
+        swipeViewModel.setCurrentMovie(currentPlayedVideo)
         toolbar.title = title
         youtubePlayer.loadVideo(nextVideoUri, playTime)
         playTime = 0F
@@ -139,11 +151,15 @@ class VideoFragment : Fragment() {
         if (this::youtubePlayer.isInitialized) {
             fun onRightToLeftSwipe() {
                 Log.i(logTag, "RightToLeftSwipe!")
+                swipeViewModel.onSwipeLeft()
+
                 showYoutubeVideo(nextVideo()[0].key)
             }
 
             fun onLeftToRightSwipe() {
                 Log.i(logTag, "LeftToRightSwipe!")
+                swipeViewModel.onSwipeRight()
+
                 showYoutubeVideo(nextVideo()[0].key)
 
             }
@@ -154,6 +170,7 @@ class VideoFragment : Fragment() {
 
             fun onBottomToTopSwipe() {
                 Log.i(logTag, "onBottomToTopSwipe!")
+                swipeViewModel.onSwipeUp()
             }
 
             when (type) {
@@ -182,9 +199,9 @@ class VideoFragment : Fragment() {
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
         outState.putFloat(TIME_PLAYED, youtubeTracker.currentSecond)
         outState.putString(TO_BE_PLAYED, toBePlayed)
         outState.putString(TITLE, title)
-        super.onSaveInstanceState(outState)
     }
 }
