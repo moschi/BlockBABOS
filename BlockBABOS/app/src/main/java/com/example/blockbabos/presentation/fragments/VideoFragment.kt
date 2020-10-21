@@ -22,15 +22,10 @@ import java.util.concurrent.Executor
 import java.util.concurrent.Executors
 import kotlin.math.abs
 
-
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
 private const val TIME_PLAYED = "TIME_PLAYED"
 private const val TITLE = "TITLE"
 private const val TO_BE_PLAYED = "TO_BE_PLAYED"
+
 /**
  * A simple [Fragment] subclass.
  * Use the [VideoFragment.newInstance] factory method to
@@ -41,10 +36,8 @@ class VideoFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
-
-
     lateinit var youtubePlayer: YouTubePlayer
-    var youtubeTracker  = YouTubePlayerTracker()
+    var youtubeTracker = YouTubePlayerTracker()
 
     private val apiController = ApiController()
     private var nextPlayedVideo: MovieInfo? = null
@@ -57,17 +50,11 @@ class VideoFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if(savedInstanceState != null){
-            println(savedInstanceState)
+        if (savedInstanceState != null) {
             playTime = savedInstanceState.getFloat(TIME_PLAYED)
             title = savedInstanceState.getString(TITLE)!!
             toBePlayed = savedInstanceState.getString(TO_BE_PLAYED)!!
         }
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-
     }
 
     private fun generateRandomIndex(max: Int): Int {
@@ -86,24 +73,21 @@ class VideoFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val youTubePlayerView: YouTubePlayerView =
             view.findViewById(R.id.youtube_player) as YouTubePlayerView
-
         toolbar = activity?.findViewById(R.id.toolbar) as MaterialToolbar
-
         lifecycle.addObserver(youTubePlayerView)
         youTubePlayerView.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
             override fun onReady(youTubePlayer: YouTubePlayer) {
                 youtubePlayer = youTubePlayer
                 youtubePlayer.addListener(youtubeTracker)
-                if(toBePlayed == ""){
+                if (toBePlayed == "") {
                     val nextVideo = nextVideo()
                     showYoutubeVideo(nextVideo[0].key)
-                }else{
+                } else {
                     showYoutubeVideo(toBePlayed)
                 }
             }
         })
     }
-
 
     private fun nextVideo(): List<Video> {
         val fetchVideosLatch = CountDownLatch(1)
@@ -152,36 +136,33 @@ class VideoFragment : Fragment() {
 
     fun onSwipe(type: Swipe.SwipeType) {
         val logTag = "WHATEVER"
+        if (this::youtubePlayer.isInitialized) {
+            fun onRightToLeftSwipe() {
+                Log.i(logTag, "RightToLeftSwipe!")
+                showYoutubeVideo(nextVideo()[0].key)
+            }
 
-        fun onRightToLeftSwipe() {
-            Log.i(logTag, "RightToLeftSwipe!")
-            Toast.makeText(activity, "RightToLeftSwipe", Toast.LENGTH_SHORT).show()
-            showYoutubeVideo(nextVideo()[0].key)
-        }
+            fun onLeftToRightSwipe() {
+                Log.i(logTag, "LeftToRightSwipe!")
+                showYoutubeVideo(nextVideo()[0].key)
 
-        fun onLeftToRightSwipe() {
-            Log.i(logTag, "LeftToRightSwipe!")
-            Toast.makeText(activity, "LeftToRightSwipe", Toast.LENGTH_SHORT).show()
-            showYoutubeVideo(nextVideo()[0].key)
+            }
 
-        }
+            fun onTopToBottomSwipe() {
+                Log.i(logTag, "onTopToBottomSwipe!")
+            }
 
-        fun onTopToBottomSwipe() {
-            Log.i(logTag, "onTopToBottomSwipe!")
-            Toast.makeText(activity, "onTopToBottomSwipe", Toast.LENGTH_SHORT).show()
-        }
+            fun onBottomToTopSwipe() {
+                Log.i(logTag, "onBottomToTopSwipe!")
+            }
 
-        fun onBottomToTopSwipe() {
-            Log.i(logTag, "onBottomToTopSwipe!")
-            Toast.makeText(activity, "onBottomToTopSwipe", Toast.LENGTH_SHORT).show()
-        }
-
-        when (type) {
-            Swipe.SwipeType.UP -> onBottomToTopSwipe()
-            Swipe.SwipeType.DOWN -> onTopToBottomSwipe()
-            Swipe.SwipeType.LEFT -> onRightToLeftSwipe()
-            Swipe.SwipeType.RIGHT -> onLeftToRightSwipe()
-            else -> println("whatever")
+            when (type) {
+                Swipe.SwipeType.UP -> onBottomToTopSwipe()
+                Swipe.SwipeType.DOWN -> onTopToBottomSwipe()
+                Swipe.SwipeType.LEFT -> onRightToLeftSwipe()
+                Swipe.SwipeType.RIGHT -> onLeftToRightSwipe()
+                else -> println("whatever")
+            }
         }
     }
 
@@ -192,23 +173,18 @@ class VideoFragment : Fragment() {
          *
          * @param param1 Parameter 1.
          * @param param2 Parameter 2.
-         * @return A new instance of fragment VideoFragment2.
+         * @return A new instance of fragment VideoFragment.
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            VideoFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+        fun newInstance() =
+            VideoFragment().apply({})
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
         outState.putFloat(TIME_PLAYED, youtubeTracker.currentSecond)
         outState.putString(TO_BE_PLAYED, toBePlayed)
         outState.putString(TITLE, title)
+        super.onSaveInstanceState(outState)
     }
 }
