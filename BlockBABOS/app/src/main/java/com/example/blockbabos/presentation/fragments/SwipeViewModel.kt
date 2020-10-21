@@ -1,40 +1,29 @@
 package com.example.blockbabos.presentation.fragments
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.blockbabos.domain.dao.BaboMovieDao
 import com.example.blockbabos.domain.model.BaboMovie
 import com.example.blockbabos.domain.model.SwipeResult
-import com.omertron.themoviedbapi.model.media.Video
-import com.omertron.themoviedbapi.model.movie.MovieInfo
 import kotlinx.coroutines.launch
-import java.util.concurrent.CountDownLatch
-import java.util.concurrent.Executor
-import java.util.concurrent.Executors
 
 class SwipeViewModel(private val database: BaboMovieDao, application: Application) :
     AndroidViewModel(application) {
-
     private var currentBaboMovie = MutableLiveData<BaboMovie?>()
-    
-    fun setCurrentMovie(movieInfo: MovieInfo) {
+
+    fun setCurrentMovie(id: Int, title: String) {
         viewModelScope.launch {
-            var movie = database.get(movieInfo.id)
-
+            var movie = database.get(id)
             if (movie == null) {
-                var newMovie = BaboMovie();
-                newMovie.movieDbApiId = movieInfo.id
-                newMovie.title = movieInfo.title
+                val newMovie = BaboMovie()
+                newMovie.movieDbApiId = id
+                newMovie.title = title
                 newMovie.result = SwipeResult.UNKNOWN
-
                 insert(newMovie)
                 movie = newMovie
             }
-
             currentBaboMovie.value = movie
         }
     }
