@@ -7,13 +7,45 @@ import androidx.lifecycle.viewModelScope
 import com.example.blockbabos.domain.dao.BaboMovieDao
 import com.example.blockbabos.domain.model.BaboMovie
 import com.example.blockbabos.domain.model.SwipeResult
+import com.example.blockbabos.domain.moviedbapi.ApiController
+import com.example.blockbabos.domain.recommendation.RecommendationCreator
+import com.omertron.themoviedbapi.model.media.Video
+import com.omertron.themoviedbapi.model.movie.MovieInfo
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import java.util.concurrent.CountDownLatch
+import java.util.concurrent.Executor
+import java.util.concurrent.Executors
 
-class SwipeViewModel(private val database: BaboMovieDao, application: Application) :
+class SwipeViewModel(
+    private val database: BaboMovieDao,
+    private val apiController: ApiController,
+    application: Application
+) :
     AndroidViewModel(application) {
     private var currentBaboMovie = MutableLiveData<BaboMovie?>()
+    private lateinit var currentMovieInfo: MovieInfo
+    private var recommendationCreator = RecommendationCreator(database, apiController)
 
-    fun setCurrentMovie(id: Int, title: String) {
+    fun getCurrentMovie(): MovieInfo {
+        return currentMovieInfo
+    }
+
+    fun restoreCurrentMovie(id: Int, title: String) {
+        currentMovieInfo = MovieInfo()
+        currentMovieInfo.id = id
+        currentMovieInfo.title = title
+        setCurrentMovie(id, title)
+    }
+
+    private fun setCurrentMovie(movieInfo: MovieInfo) {
+        currentMovieInfo = movieInfo
+        setCurrentMovie(movieInfo.id, movieInfo.title)
+    }
+
+    private fun setCurrentMovie(id: Int, title: String) {
         viewModelScope.launch {
             var movie = database.get(id)
             if (movie == null) {
@@ -55,5 +87,35 @@ class SwipeViewModel(private val database: BaboMovieDao, application: Applicatio
             currentBaboMovie.value?.result = SwipeResult.SUPERLIKED
             update(currentBaboMovie.value!!)
         }
+    }
+
+    fun getNextMovie(): MovieInfo? = runBlocking {
+        var nextMovie = GlobalScope.async {
+            return@async recommendationCreator.getAnyRecommendation()!!
+        }
+        val result = nextMovie.await()
+        setCurrentMovie(result)
+        return@runBlocking result
+    }
+
+    fun getMovieTrailerUri(movieInfo: MovieInfo): String {
+        var nextVideoToShow: ArrayList<Video>
+        var nextTrailerUri = ""
+        val executor: Executor = Executors.newSingleThreadExecutor()
+        val fetchLinksLatch = CountDownLatch(1)
+
+        executor.execute {
+            nextVideoToShow =
+                apiController.getTrailerLinks(movieInfo) as ArrayList<Video>
+            if (nextVideoToShow.isEmpty()) {
+                nextTrailerUri = "MISSING_TRAILER"
+            } else {
+                nextTrailerUri = nextVideoToShow[0].key
+            }
+            fetchLinksLatch.countDown()
+        }
+
+        fetchLinksLatch.await()
+        return nextTrailerUri
     }
 }

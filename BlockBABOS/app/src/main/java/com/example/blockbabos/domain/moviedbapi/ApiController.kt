@@ -26,7 +26,7 @@ class ApiController {
     private val httpClient: CloseableHttpClient = HttpClientBuilder.create().build()
     private val mapper: ObjectMapper = jacksonObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false).configure(
         JsonParser.Feature.AUTO_CLOSE_SOURCE, true)
-    
+
     private fun createRequest (uri:String): ClassicHttpRequest{
         return ClassicHttpRequests.get(uri)
     }
@@ -50,12 +50,14 @@ class ApiController {
 
     fun getTopRatedMovies(): List<MovieBasic> {
         val uri = (uriBuilder(TOP_RATED, true))
+        println(uri)
         val response = httpClient.execute(createRequest(uri))
         return castResponseList(response)
     }
 
     fun getMostViewedMovies(): List<MovieInfo> {
         val uri = (uriBuilder(POPULAR, true))
+        println(uri)
         val response = httpClient.execute(createRequest(uri))
         return castResponseList(response)
     }
@@ -66,4 +68,9 @@ class ApiController {
         return castResponseList(response)
     }
 
+    fun getSimilar(movieId: Int): List<MovieInfo> {
+        var uri = (uriBuilder("movie/$movieId/similar", true))
+        val response = httpClient.execute(createRequest(uri))
+        return castResponseList(response)
+    }
 }
