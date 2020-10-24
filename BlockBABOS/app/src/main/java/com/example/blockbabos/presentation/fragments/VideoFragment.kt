@@ -166,6 +166,7 @@ class VideoFragment : Fragment() {
             fun onBottomToTopSwipe() {
                 Log.i(logTag, "onBottomToTopSwipe!")
                 swipeViewModel.onSwipeUp()
+                showYoutubeVideo(nextVideo()[0].key)
             }
 
             when (type) {

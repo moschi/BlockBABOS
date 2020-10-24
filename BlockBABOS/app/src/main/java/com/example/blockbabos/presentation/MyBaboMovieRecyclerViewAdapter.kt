@@ -8,14 +8,8 @@ import android.view.animation.ScaleAnimation
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.example.blockbabos.R
-import com.example.blockbabos.domain.dummy.DummyContent.DummyItem
 import com.example.blockbabos.domain.model.BaboMovie
 
-
-/**
- * [RecyclerView.Adapter] that can display a [DummyItem].
- * TODO: Replace the implementation with code for your data type.
- */
 class MyBaboMovieRecyclerViewAdapter(
     private val values: List<BaboMovie>,
 ) : RecyclerView.Adapter<MyBaboMovieRecyclerViewAdapter.ViewHolder>() {
@@ -24,7 +18,7 @@ class MyBaboMovieRecyclerViewAdapter(
     private var undoSwipe: () -> Boolean = fun (): Boolean {
         return false
     }
-    private var undoSwipeIsSet: Boolean = false;
+    private var undoSwipeIsSet: Boolean = false
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -37,7 +31,7 @@ class MyBaboMovieRecyclerViewAdapter(
                 }
                 MotionEvent.ACTION_MOVE -> {
                     if (this.undoSwipeIsSet) {
-                        this.undoSwipe();
+                        this.undoSwipe()
                     }
                     val itemDeleteContainer = view.findViewById<ImageButton>(R.id.item_delete_button)
                     val grow: Animation = ScaleAnimation(
@@ -54,7 +48,7 @@ class MyBaboMovieRecyclerViewAdapter(
                         itemDeleteContainer.clearAnimation()
                         return true
                     }
-                    this.undoSwipeIsSet = true;
+                    this.undoSwipeIsSet = true
                 }
             }
             true
