@@ -5,14 +5,17 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.blockbabos.presentation.MyBaboMovieRecyclerViewAdapter
 import com.example.blockbabos.R
 import com.example.blockbabos.domain.dao.BaboMovieDao
-import com.example.blockbabos.domain.dummy.DummyContent
 import com.example.blockbabos.persistence.BaboMovieRoomDatabase
+import com.example.blockbabos.presentation.ListViewModel
+import com.example.blockbabos.presentation.ListViewModelFactory
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -42,25 +45,33 @@ class ListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_babo_movie_list, container, false)
-        // setupDb(); TODO throws a IllegalStateException
-        // Set the adapter
-        if (view is RecyclerView) {
-            with(view) {
-                layoutManager = when {
-                    columnCount <= 1 -> LinearLayoutManager(context)
-                    else -> GridLayoutManager(context, columnCount)
-                }
-                // TODO does not work yet
-                // val entries: List<BaboMovie> = baboMovieDao!!.getEntries()
-                adapter = MyBaboMovieRecyclerViewAdapter(DummyContent.ITEMS)
-            }
-        }
-        return view
-    }
 
-    private fun setupDb() {
-        db = BaboMovieRoomDatabase.getDatabase(requireContext())
-        baboMovieDao = db!!.baboMovieDao()
+        val application = requireNotNull(this.activity).application
+        val dataSource = BaboMovieRoomDatabase.getDatabase(application).baboMovieDao()
+        val viewModelFactory = ListViewModelFactory(dataSource, application)
+
+        // Get a reference to the ViewModel associated with this fragment.
+        val listViewModel =
+            ViewModelProvider(this, viewModelFactory).get(ListViewModel::class.java)
+
+        // To use the View Model with data binding, you have to explicitly
+        //        // give the binding object a reference to it.
+        //        // binding.sleepTrackerViewModel = sleepTrackerViewModel
+
+        listViewModel.superLiked.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                if (view is RecyclerView) {
+                    with(view) {
+                        layoutManager = when {
+                            columnCount <= 1 -> LinearLayoutManager(context)
+                            else -> GridLayoutManager(context, columnCount)
+                        }
+                        adapter = MyBaboMovieRecyclerViewAdapter(it)
+                    }
+                }
+            }
+        })
+        return view
     }
 
     companion object {
