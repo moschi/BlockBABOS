@@ -5,11 +5,11 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import android.widget.RelativeLayout
 import com.example.blockbabos.presentation.MainActivity
-import com.example.blockbabos.domain.listeners.Motion
-import com.example.blockbabos.domain.listeners.Swipe
+import com.example.blockbabos.domain.listeners.helper.Motion
+import com.example.blockbabos.domain.listeners.helper.Swipe
 
 class CustomYoutubeLayout : RelativeLayout {
-    private var swipe: Swipe = Swipe()
+    private var swipe: Swipe = Swipe(150)
     private var intercept = false
     private val motion = Motion()
 
@@ -25,6 +25,7 @@ class CustomYoutubeLayout : RelativeLayout {
     var moved = false
     var tobeReleased = false
     private var type = Swipe.SwipeType.NONE
+
 
 
     override fun onInterceptTouchEvent(ev: MotionEvent): Boolean {
@@ -47,7 +48,6 @@ class CustomYoutubeLayout : RelativeLayout {
             MotionEvent.ACTION_DOWN -> moved = false
             MotionEvent.ACTION_MOVE -> moved = true
         }
-        println(motion)
 
         if (moved) {
             this.setPadding(motion.getRight(), motion.getBottom(), motion.getLeft(), motion.getTop())
