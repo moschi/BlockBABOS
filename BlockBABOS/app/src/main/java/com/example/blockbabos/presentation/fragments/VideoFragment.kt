@@ -40,7 +40,7 @@ class VideoFragment : Fragment() {
 
     private val apiController = ApiController()
     private var nextPlayedVideo: MovieInfo? = null
-    private lateinit var currentPlayedVideo : MovieInfo
+    private lateinit var currentPlayedVideo: MovieInfo
     private var currentPlayedMovieId = 0
 
     private var playTime = 0F
@@ -59,14 +59,13 @@ class VideoFragment : Fragment() {
         val application = requireNotNull(this.activity).application
         val dataSource = BaboMovieRoomDatabase.getDatabase(application).baboMovieDao()
         swipeViewModel =
-            ViewModelProvider(this, SwipeViewModelFactory(dataSource, application)).get(
+            ViewModelProvider(
+                this,
+                SwipeViewModelFactory(dataSource, apiController, application)
+            ).get(
                 SwipeViewModel::class.java
             )
         Log.i("VideoFragment", "created swipeViewModel")
-    }
-
-    private fun generateRandomIndex(max: Int): Int {
-        return abs(Math.random() * max).toInt()
     }
 
     override fun onCreateView(
@@ -99,28 +98,20 @@ class VideoFragment : Fragment() {
 
 
     private fun nextVideo(): List<Video> {
-        val fetchVideosLatch = CountDownLatch(1)
-
-        var videoList = ArrayList<MovieInfo>()
         var nextVideoToShow = ArrayList<Video>()
         val executor: Executor = Executors.newSingleThreadExecutor()
 
-        executor.execute {
-            videoList = apiController.getMostViewedMovies() as ArrayList<MovieInfo>
-            fetchVideosLatch.countDown()
-        }
-        fetchVideosLatch.await()
-
-        val max = videoList.size
         if (nextPlayedVideo != null) {
             currentPlayedVideo = nextPlayedVideo as MovieInfo
         } else {
-            currentPlayedVideo = videoList[generateRandomIndex(max)]
+            currentPlayedVideo = swipeViewModel.getNextMovie()!!
         }
         title = currentPlayedVideo.title ?: ""
         currentPlayedMovieId = currentPlayedVideo.id
+        nextPlayedVideo = swipeViewModel.getNextMovie()!!
 
-        nextPlayedVideo = videoList[generateRandomIndex(max)]
+        // todo: move setting of current video from fragment to viewmodel since
+        // the viewmodel fetches the next movie anyway
 
         val fetchLinksLatch = CountDownLatch(1)
 
