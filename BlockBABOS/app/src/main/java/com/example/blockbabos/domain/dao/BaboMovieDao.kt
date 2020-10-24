@@ -8,16 +8,16 @@ import com.example.blockbabos.domain.model.BaboMovie
 interface BaboMovieDao {
 
     @Query("SELECT * FROM BaboMovie ORDER BY movieDbApiId DESC")
-    fun getEntries(): List<BaboMovie>
+    fun getEntries(): LiveData<List<BaboMovie>>
 
     @Query("SELECT * FROM BaboMovie WHERE result = 0 ORDER BY movieDbApiId DESC")
-    fun getLiked(): List<BaboMovie>
+    fun getLiked(): LiveData<List<BaboMovie>>
 
     @Query("SELECT * FROM BaboMovie WHERE result = 1 ORDER BY movieDbApiId DESC")
-    fun getDisliked(): List<BaboMovie>
+    fun getDisliked(): LiveData<List<BaboMovie>>
 
     @Query("SELECT * FROM BaboMovie WHERE result = 2 ORDER BY movieDbApiId DESC")
-    fun getSuperliked(): List<BaboMovie>
+    fun getSuperliked(): LiveData<List<BaboMovie>>
 
     @Query("SELECT * from BaboMovie WHERE movieDbApiId = :key")
     suspend fun get(key: Int): BaboMovie?
