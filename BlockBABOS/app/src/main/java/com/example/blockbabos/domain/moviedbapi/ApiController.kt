@@ -63,28 +63,24 @@ class ApiController {
 
     fun getTopRatedMovies(): List<MovieBasic> {
         val uri = (uriBuilder(TOP_RATED, true))
-        println(uri)
         val response = httpClient.execute(createRequest(uri))
         return castResponseList(response)
     }
 
     fun getMostViewedMovies(): List<MovieInfo> {
         val uri = (uriBuilder(POPULAR, true))
-        println(uri)
         val response = httpClient.execute(createRequest(uri))
         return castResponseList(response)
     }
 
     fun getTrailerLinks(movieInfo: MovieInfo): List<Video> {
         val uri = (uriBuilder("movie/" + movieInfo.id.toString() + "/videos", true))
-        println(uri)
         val response = httpClient.execute(createRequest(uri))
         return castResponseList(response)
     }
 
     fun getSimilar(movieId: Int): List<MovieInfo> {
         var uri = (uriBuilder("movie/$movieId/similar", true))
-        println(uri)
         val response = httpClient.execute(createRequest(uri))
         return castResponseList(response)
     }
