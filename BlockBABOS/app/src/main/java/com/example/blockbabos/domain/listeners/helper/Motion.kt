@@ -1,4 +1,4 @@
-package com.example.blockbabos.domain.listeners
+package com.example.blockbabos.domain.listeners.helper
 
 class Motion {
     private var left = 0

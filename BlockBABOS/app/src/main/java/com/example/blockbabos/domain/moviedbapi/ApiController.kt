@@ -16,44 +16,31 @@ import org.apache.hc.client5.http.impl.classic.HttpClientBuilder
 import org.apache.hc.core5.http.ClassicHttpRequest
 import java.io.BufferedInputStream
 
+private const val API_KEY = "f6789f8a7c4ea3cc8c3b4fc4b1e75973"
+private const val LANGUAGE = "en_US"
+private const val BASE_URI = "https://api.themoviedb.org/3/"
+private const val TOP_RATED = "movie/top_rated"
+private const val POPULAR = "movie/popular"
 
 class ApiController {
-
-    private val API_KEY = "f6789f8a7c4ea3cc8c3b4fc4b1e75973"
-    private val LANGUAGE = "en_US"
-    private val BASE_URI = "https://api.themoviedb.org/3/"
     private val httpClient: CloseableHttpClient = HttpClientBuilder.create().build()
+    private val mapper: ObjectMapper = jacksonObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false).configure(
+        JsonParser.Feature.AUTO_CLOSE_SOURCE, true)
 
-    private val TOP_RATED = "movie/top_rated"
-    private val POPULAR = "movie/popular"
-    val mapper: ObjectMapper =
-        jacksonObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
-            .configure(
-                JsonParser.Feature.AUTO_CLOSE_SOURCE, true
-            );
-
-
-    private fun createRequest(uri: String): ClassicHttpRequest {
-        val request = ClassicHttpRequests.get(uri)
-        return request
+    private fun createRequest (uri:String): ClassicHttpRequest{
+        return ClassicHttpRequests.get(uri)
     }
 
-    private fun uriBuilder(path: String, isList: Boolean): String {
-        if (isList) {
-            return "$BASE_URI$path?api_key=$API_KEY&language=$LANGUAGE&page=1"
+    private fun uriBuilder (path: String, isList: Boolean): String{
+        return if(isList){
+            "$BASE_URI$path?api_key=$API_KEY&language=$LANGUAGE&page=1"
 
-        } else {
-            return "$BASE_URI$path?api_key=$API_KEY"
+        }else{
+            "$BASE_URI$path?api_key=$API_KEY"
         }
     }
 
-    //    inline fun <reified T:AbstractJsonMapping> castResponse(response: CloseableHttpResponse) : T {
-//        val inputStream = BufferedInputStream(response.entity.content)
-//        val responseString = IOUtils.toString(inputStream)
-//        println(responseString)
-//        return mapper.readValue(responseString)
-//    }
-    inline fun <reified T : List<AbstractJsonMapping>> castResponseList(response: CloseableHttpResponse): T {
+    private inline fun <reified T:List<AbstractJsonMapping>> castResponseList(response: CloseableHttpResponse) : T {
         val inputStream = BufferedInputStream(response.entity.content)
         val jsonObject = mapper.readTree(inputStream)
         response.close()
@@ -63,12 +50,14 @@ class ApiController {
 
     fun getTopRatedMovies(): List<MovieBasic> {
         val uri = (uriBuilder(TOP_RATED, true))
+        println(uri)
         val response = httpClient.execute(createRequest(uri))
         return castResponseList(response)
     }
 
     fun getMostViewedMovies(): List<MovieInfo> {
         val uri = (uriBuilder(POPULAR, true))
+        println(uri)
         val response = httpClient.execute(createRequest(uri))
         return castResponseList(response)
     }

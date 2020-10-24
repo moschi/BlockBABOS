@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.blockbabos.R
-import com.example.blockbabos.domain.listeners.Swipe
+import com.example.blockbabos.domain.listeners.helper.Swipe
 import com.example.blockbabos.domain.moviedbapi.ApiController
 import com.example.blockbabos.persistence.BaboMovieRoomDatabase
 import com.google.android.material.appbar.MaterialToolbar

@@ -1,14 +1,13 @@
 package com.example.blockbabos.presentation
 
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.example.blockbabos.R
-import com.example.blockbabos.domain.listeners.Swipe
+import com.example.blockbabos.domain.listeners.helper.Swipe
 import com.example.blockbabos.presentation.fragments.FragmentStates
 import com.example.blockbabos.presentation.fragments.ListFragment
 import com.example.blockbabos.presentation.fragments.VideoFragment
