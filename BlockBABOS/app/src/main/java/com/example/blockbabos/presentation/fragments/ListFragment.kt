@@ -55,8 +55,8 @@ class ListFragment : Fragment() {
             ViewModelProvider(this, viewModelFactory).get(ListViewModel::class.java)
 
         // To use the View Model with data binding, you have to explicitly
-        // give the binding object a reference to it.
-        // binding.sleepTrackerViewModel = sleepTrackerViewModel
+        //        // give the binding object a reference to it.
+        //        // binding.sleepTrackerViewModel = sleepTrackerViewModel
 
         listViewModel.superLiked.observe(viewLifecycleOwner, Observer {
             it?.let {

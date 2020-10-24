@@ -1,5 +1,6 @@
 package com.example.blockbabos.presentation
 
+import android.media.Image
 import android.util.Log
 import android.view.*
 import android.view.animation.Animation
@@ -38,21 +39,19 @@ class MyBaboMovieRecyclerViewAdapter(
                     if (this.undoSwipeIsSet) {
                         this.undoSwipe();
                     }
-                    val itemDeleteContainer = view.findViewById<LinearLayout>(R.id.item_delete_container)
-                    itemDeleteContainer.visibility = View.VISIBLE
+                    val itemDeleteContainer = view.findViewById<ImageButton>(R.id.item_delete_button)
                     val grow: Animation = ScaleAnimation(
-                        1f, 1f,  // Start and end values for the X axis scaling
-                        0f, 30f,  // Start and end values for the Y axis scaling
-                        Animation.RELATIVE_TO_SELF, 30f,  // Pivot point of X scaling
-                        Animation.RELATIVE_TO_SELF, 30f
+                        0f, 1f,  // Start and end values for the X axis scaling
+                        1f, 1f,  // Start and end values for the Y axis scaling
                     )
-                    grow.fillBefore = false // Needed to keep the result of the animation
-                    grow.duration = 1000
-                    grow.repeatCount = 0
+                    grow.fillAfter = true // Needed to keep the result of the animation
+                    grow.duration = 500
                     itemDeleteContainer.startAnimation(grow)
-                    itemDeleteContainer.clearAnimation()
+                    itemDeleteContainer.visibility = View.VISIBLE
+                    //itemDeleteContainer.clearAnimation()
                     this.undoSwipe = fun(): Boolean {
                         itemDeleteContainer.visibility = View.GONE
+                        itemDeleteContainer.clearAnimation()
                         return true
                     }
                     this.undoSwipeIsSet = true;
