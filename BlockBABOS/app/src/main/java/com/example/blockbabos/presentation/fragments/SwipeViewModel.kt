@@ -7,11 +7,22 @@ import androidx.lifecycle.viewModelScope
 import com.example.blockbabos.domain.dao.BaboMovieDao
 import com.example.blockbabos.domain.model.BaboMovie
 import com.example.blockbabos.domain.model.SwipeResult
+import com.example.blockbabos.domain.moviedbapi.ApiController
+import com.example.blockbabos.domain.recommendation.RecommendationCreator
+import com.omertron.themoviedbapi.model.movie.MovieInfo
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
-class SwipeViewModel(private val database: BaboMovieDao, application: Application) :
+class SwipeViewModel(
+    private val database: BaboMovieDao,
+    apiController: ApiController,
+    application: Application
+) :
     AndroidViewModel(application) {
     private var currentBaboMovie = MutableLiveData<BaboMovie?>()
+    private var recommendationCreator = RecommendationCreator(database, apiController)
 
     fun setCurrentMovie(id: Int, title: String) {
         viewModelScope.launch {
@@ -55,5 +66,12 @@ class SwipeViewModel(private val database: BaboMovieDao, application: Applicatio
             currentBaboMovie.value?.result = SwipeResult.SUPERLIKED
             update(currentBaboMovie.value!!)
         }
+    }
+
+    fun getNextMovie(): MovieInfo? = runBlocking {
+        var nextMovie = GlobalScope.async {
+            return@async recommendationCreator.getAnyRecommendation()!!
+        }
+        return@runBlocking nextMovie.await()
     }
 }

@@ -26,31 +26,34 @@ class ApiController {
 
     private val TOP_RATED = "movie/top_rated"
     private val POPULAR = "movie/popular"
-    val mapper: ObjectMapper = jacksonObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false).configure(
-        JsonParser.Feature.AUTO_CLOSE_SOURCE, true);
+    val mapper: ObjectMapper =
+        jacksonObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+            .configure(
+                JsonParser.Feature.AUTO_CLOSE_SOURCE, true
+            );
 
 
-    fun createRequest (uri:String): ClassicHttpRequest{
+    private fun createRequest(uri: String): ClassicHttpRequest {
         val request = ClassicHttpRequests.get(uri)
         return request
     }
 
-    fun uriBuilder (path: String, isList: Boolean): String{
-        if(isList){
+    private fun uriBuilder(path: String, isList: Boolean): String {
+        if (isList) {
             return "$BASE_URI$path?api_key=$API_KEY&language=$LANGUAGE&page=1"
 
-        }else{
+        } else {
             return "$BASE_URI$path?api_key=$API_KEY"
         }
     }
 
-//    inline fun <reified T:AbstractJsonMapping> castResponse(response: CloseableHttpResponse) : T {
+    //    inline fun <reified T:AbstractJsonMapping> castResponse(response: CloseableHttpResponse) : T {
 //        val inputStream = BufferedInputStream(response.entity.content)
 //        val responseString = IOUtils.toString(inputStream)
 //        println(responseString)
 //        return mapper.readValue(responseString)
 //    }
-    inline fun <reified T:List<AbstractJsonMapping>> castResponseList(response: CloseableHttpResponse) : T {
+    inline fun <reified T : List<AbstractJsonMapping>> castResponseList(response: CloseableHttpResponse): T {
         val inputStream = BufferedInputStream(response.entity.content)
         val jsonObject = mapper.readTree(inputStream)
         response.close()
@@ -79,4 +82,10 @@ class ApiController {
         return castResponseList(response)
     }
 
+    fun getSimilar(movieId: Int): List<MovieInfo> {
+        var uri = (uriBuilder("movie/$movieId/similar", true))
+        println(uri)
+        val response = httpClient.execute(createRequest(uri))
+        return castResponseList(response)
+    }
 }
