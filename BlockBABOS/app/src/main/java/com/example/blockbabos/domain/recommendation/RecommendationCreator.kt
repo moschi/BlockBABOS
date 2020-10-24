@@ -26,8 +26,8 @@ class RecommendationCreator(
         return similarToLiked?.get(generateRandomIndex(similarToLiked.size - 1))
     }
 
-    private fun getStartRecommendation(): MovieInfo? {
-        val mostViewed = apiController.getMostViewedMovies()
+    private suspend fun getStartRecommendation(): MovieInfo? {
+        val mostViewed = apiController.getMostViewedMovies().filter { !database.movieRated(it.id) }
 
         return mostViewed[generateRandomIndex(mostViewed.size - 1)]
     }
