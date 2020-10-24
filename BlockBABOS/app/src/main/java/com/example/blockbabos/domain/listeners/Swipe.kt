@@ -6,13 +6,15 @@ class Swipe {
     var upX = 0F
     var upY = 0F
 
-    val MIN_DISTANCE = 100 // TODO change this runtime based on screen resolution. for 1920x1080 is to small the 100 distance
+    val MIN_DISTANCE =
+        100 // TODO change this runtime based on screen resolution. for 1920x1080 is to small the 100 distance
 
-    fun setUp(x: Float, y: Float){
+    fun setUp(x: Float, y: Float) {
         upX = x
         upY = y
     }
-    fun setDown(x: Float, y: Float){
+
+    fun setDown(x: Float, y: Float) {
         downX = x
         downY = y
     }
@@ -22,29 +24,28 @@ class Swipe {
     }
 
     fun getSwypeType(): SwipeType {
-            var type = SwipeType.NONE
+        var type = SwipeType.NONE
 
-            val deltaX = downX - upX
-            val deltaY = downY - upY
+        val deltaX = downX - upX
+        val deltaY = downY - upY
 
-            if (Math.abs(deltaX) > MIN_DISTANCE) {
-                if (deltaX < 0) {
-                    type = SwipeType.RIGHT
-                }
-                if (deltaX > 0) {
-                    type = SwipeType.LEFT
-                }
+        if (Math.abs(deltaY) > MIN_DISTANCE) {
+            if (deltaY < 0) {
+                type = SwipeType.DOWN
             }
-            else if (Math.abs(deltaY) > MIN_DISTANCE) {
-                if (deltaY < 0) {
-                    type = SwipeType.DOWN
-                }
-                if (deltaY > 0) {
-                    type = SwipeType.UP
+            if (deltaY > 0) {
+                type = SwipeType.UP
 
-                }
-            }else{
-                type = SwipeType.NONE;
+            }
+        } else if (Math.abs(deltaX) > MIN_DISTANCE) {
+            if (deltaX < 0) {
+                type = SwipeType.RIGHT
+            }
+            if (deltaX > 0) {
+                type = SwipeType.LEFT
+            }
+        } else {
+            type = SwipeType.NONE;
 
         }
         return type
