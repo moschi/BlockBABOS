@@ -2,9 +2,8 @@ package com.example.blockbabos.domain.listeners.impl
 
 import android.view.MotionEvent
 import android.view.View
-import android.view.animation.Animation
-import android.view.animation.ScaleAnimation
-import android.widget.ImageButton
+import android.view.ViewGroup
+import android.widget.LinearLayout
 import com.example.blockbabos.R
 import com.example.blockbabos.domain.listeners.SwipeListener
 import com.example.blockbabos.domain.listeners.helper.Swipe
@@ -16,30 +15,12 @@ class BaboMovieRecyclerViewAdapterSwipeListener() : SwipeListener() {
 
 
     override fun onRightSwipe() {
-        val itemDeleteContainer =
-            view.findViewById<ImageButton>(R.id.item_delete_button)
-        val grow: Animation = ScaleAnimation(
-            0f, 1f,
-            1f, 1f,
-        )
-        grow.fillAfter = true
-        grow.duration = 500
-
-        itemDeleteContainer.startAnimation(grow)
-        itemDeleteContainer.visibility = View.VISIBLE
+        view.findViewById<LinearLayout>(R.id.item_delete_button_layout).visibility = View.VISIBLE
     }
 
     override fun onLeftSwipe() {
-        val itemDeleteContainer =
-            view.findViewById<ImageButton>(R.id.item_delete_button)
-        val grow: Animation = ScaleAnimation(
-            1f, 0f,
-            1f, 1f,
-        )
-        grow.fillAfter = true
-        grow.duration = 500
-        itemDeleteContainer.startAnimation(grow)
-        itemDeleteContainer.visibility = View.GONE
+        val rootView: ViewGroup = view as ViewGroup
+        rootView.removeView(view.findViewById(R.id.item_delete_button_layout))
     }
 
     override fun onTopSwipe() {
