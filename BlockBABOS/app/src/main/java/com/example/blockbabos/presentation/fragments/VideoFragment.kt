@@ -12,8 +12,6 @@ import com.example.blockbabos.domain.listeners.helper.Swipe
 import com.example.blockbabos.domain.moviedbapi.ApiController
 import com.example.blockbabos.persistence.BaboMovieRoomDatabase
 import com.google.android.material.appbar.MaterialToolbar
-import com.omertron.themoviedbapi.model.media.Video
-import com.omertron.themoviedbapi.model.movie.MovieInfo
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.utils.YouTubePlayerTracker

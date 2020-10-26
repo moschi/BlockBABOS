@@ -18,6 +18,7 @@ import com.example.blockbabos.domain.dao.BaboMovieDao
 import com.example.blockbabos.persistence.BaboMovieRoomDatabase
 import com.example.blockbabos.presentation.ListViewModel
 import com.example.blockbabos.presentation.ListViewModelFactory
+import com.google.android.material.appbar.MaterialToolbar
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -47,7 +48,8 @@ class ListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        //val view = inflater.inflate(R.layout.fragment_babo_movie_list, container, false)
+        val toolbar = activity?.findViewById<MaterialToolbar>(R.id.toolbar)
+        toolbar?.title = getString(R.string.watchlist)
 
         binding = DataBindingUtil.inflate(
             inflater,
