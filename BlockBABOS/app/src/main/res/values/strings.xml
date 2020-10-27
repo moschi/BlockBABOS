@@ -10,6 +10,7 @@
     <string name="home">Home</string>
     <string name="lists">Lists</string>
     <string name="swipe">Swipe Movies</string>
+    <string name="added">Added %1$s to your watchlist</string>
     <string name="delete">Delete</string>
 
     <string name="menu_home">Home</string>
