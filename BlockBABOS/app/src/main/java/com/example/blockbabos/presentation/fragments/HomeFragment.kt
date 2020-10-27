@@ -36,9 +36,14 @@ class HomeFragment : Fragment() {
             val watchList =
                 BaboMovieRoomDatabase.getDatabase(application).baboMovieDao().getSuperlikedAsList()
             val watchListCount = watchList.size
-            val randomIndex = (Math.random() * watchListCount).toInt()
-            val randomMovie = watchList[randomIndex]
-            recommendationTextField.text = randomMovie.title
+            if(watchListCount > 0){
+                val randomIndex = (Math.random() * watchListCount).toInt()
+                val randomMovie = watchList[randomIndex]
+                recommendationTextField.text = randomMovie.title
+            }else{
+                recommendationTextField.text = getString(R.string.recommendation_error)
+            }
+
         }
     }
 }

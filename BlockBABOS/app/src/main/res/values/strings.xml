@@ -22,4 +22,5 @@
     </string>
     <string name="recommend_me_button">Recommend me a movie</string>
     <string name="watchlist">Watchlist</string>
+    <string name="recommendation_error">You have to swipe a little bit more</string>
 </resources>

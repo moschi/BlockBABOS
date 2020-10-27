@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">BlockBABOS</string>
     <string name="action_settings">iistelligä</string>
     <string name="home">Z dihei</string>
@@ -16,10 +16,11 @@
         Es büütet dr d Möglichkeit dur Film z wüscha,
         wobii d Vorschläg uf vorherigä Bewertigä basiered.
     </string>
-    <string name="welcome_text_part2">
+    <string name="welcome_text_part2" tools:ignore="Typos">
         En Superlike (gäg ufä wüschä) füegt dr Film zu dinerä Filmlischtäe drzuä.
         Gäg rächts wüsche heisst, dass dir de Film gfallt, gäg links wüscha heisst daser dr nöd gfallt.
     </string>
     <string name="watchlist">Filmlischtä</string>
     <string name="recommend_me_button">Ich hett gern ä Filmempfählig</string>
+    <string name="recommendation_error">Du muäsch zerscht nuch chlei meh swipe</string>
 </resources>
