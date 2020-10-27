@@ -15,6 +15,7 @@ import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse
 import org.apache.hc.client5.http.impl.classic.HttpClientBuilder
 import org.apache.hc.core5.http.ClassicHttpRequest
 import java.io.BufferedInputStream
+import java.lang.RuntimeException
 
 private const val API_KEY = "f6789f8a7c4ea3cc8c3b4fc4b1e75973"
 private const val LANGUAGE = "en_US"
@@ -45,7 +46,12 @@ class ApiController {
         val jsonObject = mapper.readTree(inputStream)
         response.close()
         val resultObject = jsonObject.findValue("results")
-        return mapper.readValue(resultObject.toString())
+        //todo here's a bug!
+        if(resultObject != null) {
+            return mapper.readValue(resultObject.toString())
+        }else{
+            throw RuntimeException("Could not parse result object")
+        }
     }
 
     fun getTopRatedMovies(): List<MovieBasic> {

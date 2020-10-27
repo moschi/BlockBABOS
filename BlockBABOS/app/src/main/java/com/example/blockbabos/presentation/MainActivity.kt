@@ -95,7 +95,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun onSwipe(type: Swipe.SwipeType) {
-        videoFragment.onSwipe(type)
+        if(this::videoFragment.isInitialized){
+            videoFragment.onSwipe(type)
+        }else if(this::currentFragment.isInitialized){
+            videoFragment = currentFragment as VideoFragment
+            onSwipe(type)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
