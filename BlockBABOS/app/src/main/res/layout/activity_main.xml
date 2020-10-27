@@ -12,7 +12,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         app:title="@string/home"
-        style="@style/Widget.MaterialComponents.Toolbar.Primary" />
+        android:theme="@style/AppTheme"
+        />
 
         <FrameLayout
             android:id="@+id/main_fragment_container"
