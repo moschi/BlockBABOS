@@ -16,33 +16,24 @@
   - If like => refine suggestions
   - If dislike => refine suggestions
   - If up => add to "to be watched"
-- Select category to get suggestions:
-  - Category
-    - New
-    - Trending
-    - Blockbuster
-    - Genre:
-      - Horror
-      - Action
-      - ...
-- List of movies "to be watched"
-  - CRUD 
-- Local storage of lists either in JSON file or through local DB
-  - e.g. https://docs.couchbase.com/userprofile-couchbase-mobile/standalone/userprofile/android/userprofile_basic.html
-
-
+- Watchlist
+- Local storage through Room-DB
 
 # Bewertung
 
-| Aufgabe                                      | Punktzahl | Totale Punktzahl |
-| -------------------------------------------- | --------- | ---------------- |
-| Einsatz von Kotlin                           | 3         | 9                |
-| Verwendung von Webservices                   | 1-3       | 1-3              |
-| Funktionalität (pro Funktion / Screen)       | 1-5       | 3-15             |
-| Ressourcen: Lokalisierung                    | 1-2       | 1-2              |
-| Verwendung von Notifications                 | 1-2       | 1-2              |
-| Ressourcen: Unterschiedliche Styles          | 1-2       | 1-2              |
-| Integration von Drittkomponenten (Libraries) | 1-3       | 1-3              |
-| Verwendung von Jetpack-Komponenten           | 1-3       | 1-3              |
-| **TOTAL**                                    |           | **18-39**        |
+| Aufgabe                                                      | Punktzahl | Totale Punktzahl |
+| ------------------------------------------------------------ | --------- | ---------------- |
+| Einsatz von Kotlin                                           | 3         | 9                |
+| Verwendung von Webservices<br />- [MovieDbApi](https://developers.themoviedb.org)<br />- YouTube-API | 1-3       | 1-3              |
+| Funktionalität (pro Funktion / Screen)<br />- Homescreen<br />- Swipescreen<br />- Watchlist | 1-5       | 3-15             |
+| Ressourcen: Lokalisierung                                    | 1-2       | 1-2              |
+| Verwendung von Notifications                                 | 1-2       | 1-2              |
+| Ressourcen: Unterschiedliche Styles                          | 1-2       | 1-2              |
+| Integration von Drittkomponenten (Libraries)<br />- MovieDbApi Library<br />- YouTube Player Library<br />- Room Database Library<br />- Jackson | 1-3       | 1-3              |
+| Verwendung von Jetpack-Komponenten                           | 1-3       | 1-3              |
+| Unittests                                                    | 1-3       | 1-3              |
+| Persistenz                                                   | 1-3       | 1-3              |
+| Eigenes: Databindings                                        | ?         | ?                |
+| Eigenes: Swipemechanismus                                    | ?         | ?                |
+| **TOTAL**                                                    |           | **20-45**        |
 
