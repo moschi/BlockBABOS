@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">BlockBABOS</string>
+    <string name="app_name" translatable="false">BlockBABOS</string>
     <string name="action_settings">Settings</string>
     <string name="home">Home</string>
     <string name="lists">Lists</string>
