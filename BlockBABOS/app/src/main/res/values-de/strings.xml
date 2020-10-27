@@ -22,4 +22,5 @@
         ein Wischen nach links heisst, dass du den Film nicht magst.
     </string>
     <string name="watchlist">Filmliste</string>
+    <string name="recommend_me_button">Ich möchte eine Filmempfehlung</string>
 </resources>
