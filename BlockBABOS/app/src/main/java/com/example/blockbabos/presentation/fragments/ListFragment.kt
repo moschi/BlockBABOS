@@ -8,13 +8,9 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.blockbabos.presentation.MyBaboMovieRecyclerViewAdapter
 import com.example.blockbabos.R
 import com.example.blockbabos.databinding.FragmentBaboMovieListBinding
-import com.example.blockbabos.domain.dao.BaboMovieDao
 import com.example.blockbabos.persistence.BaboMovieRoomDatabase
 import com.example.blockbabos.presentation.ListViewModel
 import com.example.blockbabos.presentation.ListViewModelFactory
