@@ -1,24 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-android:id="@+id/video_fragment_container"
-tools:context=".presentation.fragments.VideoFragment">
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/video_fragment_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".presentation.fragments.VideoFragment">
 
     <com.example.blockbabos.presentation.layouts.CustomYoutubeLayout
         android:id="@+id/video_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fitsSystemWindows="true"
         android:clickable="true"
-        tools:openDrawer="start"
-        android:focusable="true">
+        android:fitsSystemWindows="false"
+        android:focusable="true"
+        tools:openDrawer="start">
+
         <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
             android:id="@+id/youtube_player"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:showFullScreenButton="false"
+            app:showYouTubeButton="false" />
     </com.example.blockbabos.presentation.layouts.CustomYoutubeLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

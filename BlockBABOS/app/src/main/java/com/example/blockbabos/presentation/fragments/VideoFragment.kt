@@ -68,8 +68,13 @@ class VideoFragment : Fragment() {
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
         if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            activity?.findViewById<MaterialToolbar>(R.id.toolbar)?. visibility = View.GONE
-            activity?.findViewById<BottomNavigationView>(R.id.bottom_navigation)?.visibility = View.GONE
+            activity?.findViewById<MaterialToolbar>(R.id.toolbar)?.visibility = View.GONE
+            activity?.findViewById<BottomNavigationView>(R.id.bottom_navigation)?.visibility =
+                View.GONE
+
+            // marked as deprecated for API30, but we're using 21...
+            activity?.window?.decorView?.systemUiVisibility =
+                View.SYSTEM_UI_FLAG_IMMERSIVE or View.SYSTEM_UI_FLAG_FULLSCREEN or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
         }
         return inflater.inflate(R.layout.fragment_video, container, false)
     }
@@ -142,7 +147,11 @@ class VideoFragment : Fragment() {
             fun onBottomToTopSwipe() {
                 Log.i(logTag, "onBottomToTopSwipe!")
                 swipeViewModel.onSwipeUp()
-                Toast.makeText(context, getString(R.string.added, swipeViewModel.getCurrentMovie().title), Toast.LENGTH_LONG).show()
+                Toast.makeText(
+                    context,
+                    getString(R.string.added, swipeViewModel.getCurrentMovie().title),
+                    Toast.LENGTH_LONG
+                ).show()
                 showYoutubeVideo(nextVideo())
             }
 
