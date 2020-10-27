@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">BlockBABOS</string>
+    <string name="action_settings">iistelligä</string>
+    <string name="home">Z dihei</string>
+    <string name="lists">Lischtä</string>
+    <string name="swipe">Film wüschä</string>
+    <string name="added">%1$s zu dinerä Filmlischtä drzuegfüegt</string>
+    <string name="delete">Löschä</string>
+    <string name="menu_home">Z dihei</string>
+    <string name="menu_settings">iistelligä</string>
+    <string name="category_prompt">Kategorie wählä</string>
+    <string name="welcome_title">Willkommä zu BlockBabos</string>
+    <string name="welcome_text">
+        BlockBabos isch dis nüüä Werchzüüg zum Film entdeckä.
+        Es büütet dr d Möglichkeit dur Film z wüscha,
+        wobii d Vorschläg uf vorherigä Bewertigä basiered.
+    </string>
+    <string name="welcome_text_part2">
+        En Superlike (gäg ufä wüschä) füegt dr Film zu dinerä Filmlischtäe drzuä.
+        Gäg rächts wüsche heisst, dass dir de Film gfallt, gäg links wüscha heisst daser dr nöd gfallt.
+    </string>
+    <string name="watchlist">Filmlischtä</string>
+    <string name="recommend_me_button">Ich hett gern ä Filmempfählig</string>
+</resources>

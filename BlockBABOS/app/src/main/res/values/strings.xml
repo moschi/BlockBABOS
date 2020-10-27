@@ -1,11 +1,5 @@
 <resources>
     <string name="app_name">BlockBABOS</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">BlockBABOS</string>
-    <string name="nav_header_subtitle">developed by a couple of idiots</string>
-    <string name="nav_header_desc">Navigation header</string>
-    <string name="nav_settings">Settings</string>
     <string name="action_settings">Settings</string>
     <string name="home">Home</string>
     <string name="lists">Lists</string>
@@ -26,21 +20,6 @@
         A Superlike (up) adds the movie to the watchlist.
         Swiping right means you like the movie and left is a dislike.
     </string>
-    <string name="recommend_me_button">
-       Recommend me a movie
-    </string>
+    <string name="recommend_me_button">Recommend me a movie</string>
     <string name="watchlist">Watchlist</string>
-
-    <string-array name="category_array">
-        <item>Category1</item>
-        <item>Category2</item>
-        <item>Category3</item>
-        <item>Category4</item>
-        <item>Category5</item>
-        <item>Category6</item>
-        <item>Category7</item>
-        <item>InCategory8</item>
-    </string-array>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Welcome to BlockBABOS</string>
 </resources>
