@@ -1,6 +1,7 @@
 package com.example.blockbabos.presentation
 
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -9,37 +10,49 @@ import androidx.fragment.app.FragmentTransaction
 import com.example.blockbabos.R
 import com.example.blockbabos.domain.listeners.helper.Swipe
 import com.example.blockbabos.presentation.fragments.FragmentStates
+import com.example.blockbabos.presentation.fragments.HomeFragment
 import com.example.blockbabos.presentation.fragments.ListFragment
 import com.example.blockbabos.presentation.fragments.VideoFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.android.synthetic.main.fragment_babo_movie_list.*
 
 
 class MainActivity : AppCompatActivity() {
     private lateinit var videoFragment: VideoFragment
+    private lateinit var currentFragment: Fragment
+    private lateinit var fragmentState: FragmentStates
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val bottomNavigation: BottomNavigationView = findViewById(R.id.bottom_navigation)
+        bottomNavigation.menu.setGroupCheckable(0, false, true);
         val mgr: FragmentManager = supportFragmentManager
-
         if (savedInstanceState != null) {
+            val fragmentStatesValue = savedInstanceState.getString("fragmentState") ?: FragmentStates.HOME_FRAGMENT.name
+            fragmentState =  FragmentStates.valueOf(fragmentStatesValue)
             val frag = supportFragmentManager.getFragment(
                 savedInstanceState,
-                FragmentStates.VIDEO_FRAGMENT.name
+                fragmentState.name
             )
             if (frag != null) {
-                videoFragment = frag as VideoFragment
+                renderFragment(mgr, frag)
             }
+        } else {
+            fragmentState = FragmentStates.HOME_FRAGMENT
+            renderHomeFragment(mgr)
         }
 
         bottomNavigation.setOnNavigationItemSelectedListener { item ->
+            bottomNavigation.menu.setGroupCheckable(0, true, true);
             when (item.itemId) {
                 R.id.nav_home -> {
+                    fragmentState = FragmentStates.VIDEO_FRAGMENT
                     renderVideoFragment(mgr)
                     true
                 }
                 R.id.nav_lists -> {
+                    fragmentState = FragmentStates.LIST_FRAGMENT
                     renderListFragment(mgr)
                     true
                 }
@@ -52,24 +65,33 @@ class MainActivity : AppCompatActivity() {
         super.onSaveInstanceState(outState)
         supportFragmentManager.putFragment(
             outState,
-            FragmentStates.VIDEO_FRAGMENT.name,
-            videoFragment
+            fragmentState.name,
+            currentFragment
         )
+        outState.putString("fragmentState", fragmentState.name)
+    }
+
+    private fun renderHomeFragment(mgr: FragmentManager) {
+        val homeFragment = HomeFragment.newInstance()
+        renderFragment(mgr, homeFragment)
     }
 
     private fun renderVideoFragment(mgr: FragmentManager) {
         videoFragment = VideoFragment.newInstance()
-        val trans: FragmentTransaction = mgr.beginTransaction()
-        trans.replace(R.id.main_fragment_container, videoFragment)
-        trans.commit()
+        renderFragment(mgr, videoFragment)
     }
 
     private fun renderListFragment(mgr: FragmentManager) {
-        val listFragment: Fragment = ListFragment.newInstance(1)
+        val listFragment: Fragment = ListFragment.newInstance()
+        renderFragment(mgr, listFragment)
+    }
+
+    private fun renderFragment(mgr: FragmentManager, fragment: Fragment) {
         val trans: FragmentTransaction = mgr.beginTransaction()
-        listFragment.retainInstance = true
-        trans.replace(R.id.main_fragment_container, listFragment)
+        // fragment.retainInstance = true
+        trans.replace(R.id.main_fragment_container, fragment)
         trans.commit()
+        currentFragment = fragment
     }
 
     fun onSwipe(type: Swipe.SwipeType) {

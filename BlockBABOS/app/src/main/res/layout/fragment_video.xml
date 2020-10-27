@@ -8,19 +8,19 @@ android:layout_height="match_parent"
 android:id="@+id/video_fragment_container"
 tools:context=".presentation.fragments.VideoFragment">
 
-<com.example.blockbabos.presentation.layouts.CustomYoutubeLayout
-    android:id="@+id/video_layout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    android:clickable="true"
-    tools:openDrawer="start"
-    android:focusable="true"
-    android:layout_marginTop="56dp">
-    <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
-        android:id="@+id/youtube_player"
+    <com.example.blockbabos.presentation.layouts.CustomYoutubeLayout
+        android:id="@+id/video_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-</com.example.blockbabos.presentation.layouts.CustomYoutubeLayout>
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        android:clickable="true"
+        tools:openDrawer="start"
+        android:focusable="true"
+        android:layout_marginTop="56dp">
+        <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
+            android:id="@+id/youtube_player"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.example.blockbabos.presentation.layouts.CustomYoutubeLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -34,15 +34,6 @@
                 android:contentDescription="@string/delete"
                 android:onClick="@{() -> listViewModel.onDelete(baboMovie)}"/>
         </LinearLayout>
-
-        <TextView
-            android:id="@+id/item_number"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/text_margin"
-            android:textAppearance="?attr/textAppearanceListItem"
-            android:text="@{Integer.toString(baboMovie.movieDbApiId)}"/>
-
         <TextView
             android:id="@+id/content"
             android:layout_width="wrap_content"
