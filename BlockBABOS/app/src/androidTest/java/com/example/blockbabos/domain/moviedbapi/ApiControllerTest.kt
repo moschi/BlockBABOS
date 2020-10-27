@@ -27,6 +27,4 @@ class ApiControllerTest {
         println("Most viewed movie is: $mostViewed")
         Assert.assertNotNull(mostViewed)
     }
-
-
 }
