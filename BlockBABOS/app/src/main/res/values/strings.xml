@@ -20,5 +20,8 @@
         A Superlike (up) adds the movie to the watchlist.
         Swiping right means you like the movie and left is a dislike.
     </string>
+    <string name="recommend_me_button">
+       Recommend me a movie
+    </string>
     <string name="watchlist">Watchlist</string>
 </resources>

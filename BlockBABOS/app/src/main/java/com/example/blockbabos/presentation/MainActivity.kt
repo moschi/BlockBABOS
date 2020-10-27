@@ -1,7 +1,6 @@
 package com.example.blockbabos.presentation
 
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -14,7 +13,6 @@ import com.example.blockbabos.presentation.fragments.HomeFragment
 import com.example.blockbabos.presentation.fragments.ListFragment
 import com.example.blockbabos.presentation.fragments.VideoFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import kotlinx.android.synthetic.main.fragment_babo_movie_list.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -26,7 +24,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val bottomNavigation: BottomNavigationView = findViewById(R.id.bottom_navigation)
-        bottomNavigation.menu.setGroupCheckable(0, false, true);
+        bottomNavigation.menu.setGroupCheckable(0, false, true)
         val mgr: FragmentManager = supportFragmentManager
         if (savedInstanceState != null) {
             val fragmentStatesValue = savedInstanceState.getString("fragmentState") ?: FragmentStates.HOME_FRAGMENT.name
@@ -44,9 +42,14 @@ class MainActivity : AppCompatActivity() {
         }
 
         bottomNavigation.setOnNavigationItemSelectedListener { item ->
-            bottomNavigation.menu.setGroupCheckable(0, true, true);
+            bottomNavigation.menu.setGroupCheckable(0, true, true)
             when (item.itemId) {
                 R.id.nav_home -> {
+                    fragmentState = FragmentStates.HOME_FRAGMENT
+                    renderHomeFragment(mgr)
+                    true
+                }
+                R.id.nav_swipe -> {
                     fragmentState = FragmentStates.VIDEO_FRAGMENT
                     renderVideoFragment(mgr)
                     true
@@ -95,9 +98,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun onSwipe(type: Swipe.SwipeType) {
-        if(this::videoFragment.isInitialized){
+        if (this::videoFragment.isInitialized) {
             videoFragment.onSwipe(type)
-        }else if(this::currentFragment.isInitialized){
+        } else if (this::currentFragment.isInitialized) {
             videoFragment = currentFragment as VideoFragment
             onSwipe(type)
         }
