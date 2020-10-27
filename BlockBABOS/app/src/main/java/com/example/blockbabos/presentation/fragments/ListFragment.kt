@@ -31,16 +31,7 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class ListFragment : Fragment() {
-    /*private var columnCount = 1*/
     private lateinit var binding: FragmentBaboMovieListBinding
-
-    /*override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        arguments?.let {
-            columnCount = it.getInt(ARG_COLUMN_COUNT)
-        }
-    }*/
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

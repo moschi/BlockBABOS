@@ -3,6 +3,7 @@ package com.example.blockbabos.domain.listeners.impl
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.LinearLayout
 import com.example.blockbabos.R
 import com.example.blockbabos.domain.listeners.SwipeListener
@@ -19,8 +20,7 @@ class BaboMovieRecyclerViewAdapterSwipeListener() : SwipeListener() {
     }
 
     override fun onLeftSwipe() {
-        val rootView: ViewGroup = view as ViewGroup
-        rootView.removeView(view.findViewById(R.id.item_delete_button_layout))
+        view.findViewById<LinearLayout>(R.id.item_delete_button_layout).visibility = View.GONE
     }
 
     override fun onTopSwipe() {
