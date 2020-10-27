@@ -82,7 +82,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun renderListFragment(mgr: FragmentManager) {
-        val listFragment: Fragment = ListFragment.newInstance(1)
+        val listFragment: Fragment = ListFragment.newInstance()
         renderFragment(mgr, listFragment)
     }
 

@@ -65,8 +65,7 @@ class VideoFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val youTubePlayerView: YouTubePlayerView =
-            view.findViewById(R.id.youtube_player) as YouTubePlayerView
+        val youTubePlayerView = view.findViewById<YouTubePlayerView>(R.id.youtube_player)
         toolbar = activity?.findViewById(R.id.toolbar) as MaterialToolbar
         lifecycle.addObserver(youTubePlayerView)
         youTubePlayerView.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {

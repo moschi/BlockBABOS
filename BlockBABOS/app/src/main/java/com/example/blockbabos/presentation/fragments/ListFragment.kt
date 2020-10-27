@@ -31,18 +31,16 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class ListFragment : Fragment() {
-    private var columnCount = 1
-
+    /*private var columnCount = 1*/
     private lateinit var binding: FragmentBaboMovieListBinding
 
-
-    override fun onCreate(savedInstanceState: Bundle?) {
+    /*override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         arguments?.let {
             columnCount = it.getInt(ARG_COLUMN_COUNT)
         }
-    }
+    }*/
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -61,8 +59,7 @@ class ListFragment : Fragment() {
         val application = requireNotNull(this.activity).application
         val dataSource = BaboMovieRoomDatabase.getDatabase(application).baboMovieDao()
         val viewModelFactory = ListViewModelFactory(dataSource, application)
-        val listViewModel =
-            ViewModelProvider(this, viewModelFactory).get(ListViewModel::class.java)
+        val listViewModel = ViewModelProvider(this, viewModelFactory).get(ListViewModel::class.java)
         binding.listViewModel = listViewModel
         binding.list.adapter = MyBaboMovieRecyclerViewAdapter(listViewModel, emptyList())
 
@@ -74,22 +71,9 @@ class ListFragment : Fragment() {
         return binding.root
     }
 
-    private fun onDelete() {
-
-    }
-
     companion object {
-
-        // TODO: Customize parameter argument names
-        const val ARG_COLUMN_COUNT = "column-count"
-
         // TODO: Customize parameter initialization
         @JvmStatic
-        fun newInstance(columnCount: Int) =
-            ListFragment().apply {
-                arguments = Bundle().apply {
-                    putInt(ARG_COLUMN_COUNT, columnCount)
-                }
-            }
+        fun newInstance() = ListFragment()
     }
 }

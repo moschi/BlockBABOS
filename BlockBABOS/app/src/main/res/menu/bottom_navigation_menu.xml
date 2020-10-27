@@ -11,5 +11,5 @@
         android:enabled="true"
         android:checked="false"
         android:icon="@drawable/ic_baseline_list_24"
-        android:title="@string/lists"/>
+        android:title="@string/watchlist"/>
 </menu>
