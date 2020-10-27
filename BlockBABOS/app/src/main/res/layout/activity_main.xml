@@ -13,16 +13,13 @@
         android:layout_alignParentTop="true"
         app:title="@string/home"
         style="@style/Widget.MaterialComponents.Toolbar.Primary" />
-<!--    <ScrollView-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_below="@id/toolbar"-->
-<!--        android:layout_above="@id/bottom_navigation">-->
+
         <FrameLayout
             android:id="@+id/main_fragment_container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-<!--    </ScrollView>-->
+            android:layout_height="wrap_content"
+            android:layout_below="@id/toolbar"
+            android:layout_above="@id/bottom_navigation"/>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:layout_width="match_parent"

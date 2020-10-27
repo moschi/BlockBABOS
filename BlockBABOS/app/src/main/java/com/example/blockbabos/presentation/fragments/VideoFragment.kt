@@ -1,10 +1,14 @@
 package com.example.blockbabos.presentation.fragments
 
+import android.content.Context
+import android.content.res.Configuration
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.blockbabos.R
@@ -12,10 +16,13 @@ import com.example.blockbabos.domain.listeners.helper.Swipe
 import com.example.blockbabos.domain.moviedbapi.ApiController
 import com.example.blockbabos.persistence.BaboMovieRoomDatabase
 import com.google.android.material.appbar.MaterialToolbar
+import com.google.android.material.bottomnavigation.BottomNavigationMenu
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.utils.YouTubePlayerTracker
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
+
 
 private const val TIME_PLAYED = "TIME_PLAYED"
 private const val CURRENT_PLAYED_MOVIE_TITLE = "TITLE"
@@ -60,6 +67,10 @@ class VideoFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
+        if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            activity?.findViewById<MaterialToolbar>(R.id.toolbar)?. visibility = View.GONE
+            activity?.findViewById<BottomNavigationView>(R.id.bottom_navigation)?.visibility = View.GONE
+        }
         return inflater.inflate(R.layout.fragment_video, container, false)
     }
 
@@ -130,6 +141,7 @@ class VideoFragment : Fragment() {
             fun onBottomToTopSwipe() {
                 Log.i(logTag, "onBottomToTopSwipe!")
                 swipeViewModel.onSwipeUp()
+                Toast.makeText(context, getString(R.string.added, swipeViewModel.getCurrentMovie().title), Toast.LENGTH_LONG).show()
                 showYoutubeVideo(nextVideo())
             }
 
@@ -150,10 +162,8 @@ class VideoFragment : Fragment() {
          *
          * @return A new instance of fragment VideoFragment.
          */
-        // TODO: Rename and change types and number of parameters
         @JvmStatic
-        fun newInstance() =
-            VideoFragment().apply({})
+        fun newInstance() = VideoFragment()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
