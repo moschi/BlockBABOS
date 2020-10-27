@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">BlockBABOS</string>
+    <string name="action_settings">Einstellungen</string>
+    <string name="home">Home</string>
+    <string name="lists">Listen</string>
+    <string name="swipe">Movies swipen</string>
+    <string name="added">%1$s zu deiner Filmliste hinzugefügt</string>
+    <string name="delete">Löschen</string>
+    <string name="menu_home">Home</string>
+    <string name="menu_settings">Einstellungen</string>
+    <string name="category_prompt">Kategorie wählen</string>
+    <string name="welcome_title">Willkommen zu BlockBabos</string>
+    <string name="welcome_text">
+        BlockBabos ist dein neues Werkzeug um Filme zu entdecken.
+        Es bietet dir die Möglichkeit Filme zu swipen,
+        wobei die Vorschläge auf vorhergehenden Bewertungen basieren.
+    </string>
+    <string name="welcome_text_part2">
+        Ein Superlike (nach oben wischen) fügt einen Film zu deiner Filmliste hinzu.
+        Ein Wischen nach rechts heisst, dass du den Film magst,
+        ein Wischen nach links heisst, dass du den Film nicht magst.
+    </string>
+    <string name="watchlist">Filmliste</string>
+    <string name="recommend_me_button">Ich möchte eine Filmempfehlung</string>
+</resources>
