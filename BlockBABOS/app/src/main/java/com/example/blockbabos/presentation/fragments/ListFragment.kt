@@ -20,11 +20,6 @@ import com.example.blockbabos.presentation.ListViewModel
 import com.example.blockbabos.presentation.ListViewModelFactory
 import com.google.android.material.appbar.MaterialToolbar
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
 /**
  * A simple [Fragment] subclass.
  * Use the [ListFragment.newInstance] factory method to
