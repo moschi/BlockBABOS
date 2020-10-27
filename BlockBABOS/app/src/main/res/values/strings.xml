@@ -11,6 +11,8 @@
     <string name="menu_settings">Settings</string>
     <string name="category_prompt">Choose a category</string>
     <string name="welcome_title">Welcome to BlockBabos</string>
+    <string name="time_for_movie">Hey it\'s time to watch a movie &#127909;</string>
+
     <string name="welcome_text">
         BlockBabos is your new movie finder.
         It offers you a view to swipe trough movies,
