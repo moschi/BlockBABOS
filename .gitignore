@@ -78,3 +78,6 @@ lint/tmp/
 
 # Android Profiling
 *.hprof
+
+# release
+BlockBABOS/app/release/

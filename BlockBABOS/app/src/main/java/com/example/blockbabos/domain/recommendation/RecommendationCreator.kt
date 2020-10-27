@@ -13,7 +13,10 @@ class RecommendationCreator(
     private suspend fun getSimilarRecommendation(): MovieInfo? {
         // todo: prefer superliked? maybe use liked as fallback?
         val liked = database.getLikedAsList()
-        val randomLike = liked.get(generateRandomIndex(liked.size - 1))
+        if (liked.isEmpty()) {
+            return null
+        }
+        val randomLike = liked[generateRandomIndex(liked.size - 1)]
 
         val similarToLiked = randomLike?.movieDbApiId?.let { apiController.getSimilar(it) }
             ?.filter { !database.movieRated(it.id) }
