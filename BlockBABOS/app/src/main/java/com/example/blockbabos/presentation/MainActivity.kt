@@ -86,8 +86,6 @@ class MainActivity : AppCompatActivity() {
 
         val notificationReminder = Intent(this, ReminderNotification::class.java)
         notificationReminder.putExtra("text", getString(R.string.time_for_movie))
-
-        //This is alarm manager
         val pi = PendingIntent.getBroadcast(
             this,
             0,
