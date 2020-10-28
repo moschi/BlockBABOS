@@ -1,6 +1,14 @@
 package com.example.blockbabos.presentation
 
+import android.app.AlarmManager
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.content.Context
+import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -8,12 +16,13 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.example.blockbabos.R
 import com.example.blockbabos.domain.listeners.helper.Swipe
-import com.example.blockbabos.presentation.fragments.FragmentStates
-import com.example.blockbabos.presentation.fragments.HomeFragment
-import com.example.blockbabos.presentation.fragments.ListFragment
-import com.example.blockbabos.presentation.fragments.VideoFragment
+import com.example.blockbabos.presentation.fragments.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.util.*
 
+const val CHANNEL_ID = "BlockBABO"
 
 class MainActivity : AppCompatActivity() {
     private lateinit var videoFragment: VideoFragment
@@ -27,8 +36,9 @@ class MainActivity : AppCompatActivity() {
         bottomNavigation.menu.setGroupCheckable(0, false, true)
         val mgr: FragmentManager = supportFragmentManager
         if (savedInstanceState != null) {
-            val fragmentStatesValue = savedInstanceState.getString("fragmentState") ?: FragmentStates.HOME_FRAGMENT.name
-            fragmentState =  FragmentStates.valueOf(fragmentStatesValue)
+            val fragmentStatesValue =
+                savedInstanceState.getString("fragmentState") ?: FragmentStates.HOME_FRAGMENT.name
+            fragmentState = FragmentStates.valueOf(fragmentStatesValue)
             val frag = supportFragmentManager.getFragment(
                 savedInstanceState,
                 fragmentState.name
@@ -62,6 +72,75 @@ class MainActivity : AppCompatActivity() {
                 else -> false
             }
         }
+        scheduleAlarm()
+        createNotificationChannel()
+    }
+
+    private fun scheduleAlarm() {
+        val calendar: Calendar = Calendar.getInstance()
+        // every friday on 1945
+        calendar.set(Calendar.HOUR_OF_DAY, 19)
+        calendar.set(Calendar.MINUTE, 45)
+        calendar.set(Calendar.SECOND, 0)
+        calendar.set(Calendar.DAY_OF_WEEK, 6)
+
+        // code for debugging
+        /*
+        val currTime = LocalDateTime.now()
+        var hour = currTime.hour
+        var minutes = currTime.minute
+        var seconds = currTime.second + 15
+        if (seconds > 59) {
+            seconds -= 60
+            minutes += 1
+            if (minutes > 59) {
+                minutes = 0
+                hour += 1
+            }
+        }
+        calendar.set(Calendar.HOUR_OF_DAY, hour)
+        calendar.set(Calendar.MINUTE, minutes)
+        calendar.set(Calendar.SECOND, seconds)
+
+         */
+
+        val notificationReminder = Intent(this, ReminderNotification::class.java)
+        notificationReminder.putExtra("text", getString(R.string.time_for_movie))
+
+        val pi = PendingIntent.getBroadcast(
+            this,
+            0,
+            notificationReminder,
+            PendingIntent.FLAG_UPDATE_CURRENT
+        )
+
+        val alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
+        alarmManager.setRepeating(
+            AlarmManager.RTC_WAKEUP,
+            calendar.timeInMillis,
+            AlarmManager.INTERVAL_DAY,
+            pi
+        )
+
+        val df: DateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS", Locale.US)
+        Log.d(CHANNEL_ID, "alarm set at: ${df.format(calendar.time)}")
+    }
+
+    private fun createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name = "BlockBABO"
+            val descriptionText = "BlockBABO messages"
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val channel = NotificationChannel(CHANNEL_ID, name, importance).apply {
+                description = descriptionText
+            }
+            // Register the channel with the system
+            val notificationManager: NotificationManager =
+                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel)
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -72,6 +151,18 @@ class MainActivity : AppCompatActivity() {
             currentFragment
         )
         outState.putString("fragmentState", fragmentState.name)
+    }
+
+    private fun renderImageFragment(mgr: FragmentManager) {
+        // benny: example on how to use movieposterfragment
+        val args = Bundle()
+        args.putString(
+            "IMAGE_URL",
+            "https://image.tmdb.org/t/p/original/h8Rb9gBr48ODIwYUttZNYeMWeUU.jpg"
+        )
+        val moviePosterFragment = MoviePosterFragment()
+        moviePosterFragment.arguments = args
+        renderFragment(mgr, moviePosterFragment)
     }
 
     private fun renderHomeFragment(mgr: FragmentManager) {
