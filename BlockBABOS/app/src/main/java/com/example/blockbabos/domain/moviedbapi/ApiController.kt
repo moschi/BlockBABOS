@@ -63,14 +63,12 @@ class ApiController {
 
     fun getTopRatedMovies(): List<MovieBasic> {
         val uri = (uriBuilder(TOP_RATED, true))
-        println(uri)
         val response = httpClient.execute(createRequest(uri))
         return castResponseList(response)
     }
 
     fun getMostViewedMovies(): List<MovieInfo> {
         val uri = (uriBuilder(POPULAR, true))
-        println(uri)
         val response = httpClient.execute(createRequest(uri))
         return castResponseList(response)
     }
