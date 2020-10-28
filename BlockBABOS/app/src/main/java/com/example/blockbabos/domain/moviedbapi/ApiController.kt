@@ -43,6 +43,12 @@ class ApiController {
         }
     }
 
+    private inline fun <reified T : AbstractJsonMapping> castResponse(response: CloseableHttpResponse): T {
+        val inputStream = BufferedInputStream(response.entity.content)
+        val jsonObject = mapper.readTree(inputStream)
+        response.close()
+        return mapper.readValue(jsonObject.toString())
+    }
     private inline fun <reified T : List<AbstractJsonMapping>> castResponseList(response: CloseableHttpResponse): T {
         val inputStream = BufferedInputStream(response.entity.content)
         val jsonObject = mapper.readTree(inputStream)
@@ -80,4 +86,11 @@ class ApiController {
         val response = httpClient.execute(createRequest(uri))
         return castResponseList(response)
     }
+    fun getMovieById(movieId: Int): MovieInfo{
+        val uri = (uriBuilder("movie/$movieId", false))
+        val response = httpClient.execute(createRequest(uri))
+        return castResponse(response)
+    }
+
+
 }

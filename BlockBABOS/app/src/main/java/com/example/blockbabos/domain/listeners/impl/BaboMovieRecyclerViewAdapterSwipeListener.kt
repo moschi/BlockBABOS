@@ -2,8 +2,6 @@ package com.example.blockbabos.domain.listeners.impl
 
 import android.view.MotionEvent
 import android.view.View
-import android.view.ViewGroup
-import android.widget.ImageButton
 import android.widget.LinearLayout
 import com.example.blockbabos.R
 import com.example.blockbabos.domain.listeners.SwipeListener
@@ -30,14 +28,13 @@ class BaboMovieRecyclerViewAdapterSwipeListener() : SwipeListener() {
     }
 
     override fun onNone() {
-        view.performClick()
     }
 
     override fun onTouch(v: View?, event: MotionEvent?): Boolean {
         view = v!!
         swipe.update(event!!)
 
-        when (swipe.getSwypeType()) {
+        when (swipe.getSwipeType()) {
             Swipe.SwipeType.RIGHT -> {
                 onRightSwipe()
             }
@@ -51,9 +48,13 @@ class BaboMovieRecyclerViewAdapterSwipeListener() : SwipeListener() {
                 onBotSwipe()
             }
             Swipe.SwipeType.NONE -> {
+                if(event.action == MotionEvent.ACTION_DOWN){
+                    view.performClick()
+                }else{
+                    onNone()
+                }
             }
         }
-        view.performClick()
         return true
 
     }

@@ -29,7 +29,7 @@ class Swipe(thresholdPercentage: Int) {
         UP, LEFT, RIGHT, DOWN, NONE
     }
 
-    fun getSwypeType(): SwipeType {
+    fun getSwipeType(): SwipeType {
         var type =
             SwipeType.NONE
 
@@ -76,7 +76,7 @@ class Swipe(thresholdPercentage: Int) {
             }
             if (ev.action == MotionEvent.ACTION_UP) {
                 setUp(ev.x, ev.y)
-                type = getSwypeType()
+                type = getSwipeType()
                 tobeReleased = false
             }
         }

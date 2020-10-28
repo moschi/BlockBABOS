@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.example.blockbabos.presentation.MyBaboMovieRecyclerViewAdapter
+import com.example.blockbabos.presentation.BaboMovieRecyclerViewAdapter
 import com.example.blockbabos.R
 import com.example.blockbabos.databinding.FragmentBaboMovieListBinding
 import com.example.blockbabos.persistence.BaboMovieRoomDatabase
@@ -43,11 +43,11 @@ class ListFragment : Fragment() {
         val viewModelFactory = ListViewModelFactory(dataSource, application)
         val listViewModel = ViewModelProvider(this, viewModelFactory).get(ListViewModel::class.java)
         binding.listViewModel = listViewModel
-        binding.list.adapter = MyBaboMovieRecyclerViewAdapter(listViewModel, emptyList())
+        binding.list.adapter = BaboMovieRecyclerViewAdapter(listViewModel, emptyList())
 
         listViewModel.superLiked.observe(viewLifecycleOwner, Observer {
             it?.let {
-                binding.list.adapter = MyBaboMovieRecyclerViewAdapter(listViewModel, it)
+                binding.list.adapter = BaboMovieRecyclerViewAdapter(listViewModel, it)
             }
         })
         return binding.root
