@@ -34,8 +34,6 @@ class BaboMovieRecyclerViewAdapterSwipeListener() : SwipeListener() {
         view = v!!
         swipe.update(event!!)
 
-        println(swipe.getSwipeType())
-
         when (swipe.getSwipeType()) {
             Swipe.SwipeType.RIGHT -> {
                 onRightSwipe()
