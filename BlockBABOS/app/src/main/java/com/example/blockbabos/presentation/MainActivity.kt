@@ -153,18 +153,6 @@ class MainActivity : AppCompatActivity() {
         outState.putString("fragmentState", fragmentState.name)
     }
 
-    private fun renderImageFragment(mgr: FragmentManager) {
-        // benny: example on how to use movieposterfragment
-        val args = Bundle()
-        args.putString(
-            "IMAGE_URL",
-            "https://image.tmdb.org/t/p/original/h8Rb9gBr48ODIwYUttZNYeMWeUU.jpg"
-        )
-        val moviePosterFragment = MoviePosterFragment()
-        moviePosterFragment.arguments = args
-        renderFragment(mgr, moviePosterFragment)
-    }
-
     private fun renderHomeFragment(mgr: FragmentManager) {
         val homeFragment = HomeFragment.newInstance()
         renderFragment(mgr, homeFragment)
@@ -182,7 +170,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun renderFragment(mgr: FragmentManager, fragment: Fragment) {
         val trans: FragmentTransaction = mgr.beginTransaction()
-        // fragment.retainInstance = true
         trans.replace(R.id.main_fragment_container, fragment)
         trans.commit()
         currentFragment = fragment

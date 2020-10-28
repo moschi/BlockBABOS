@@ -7,12 +7,12 @@
             name="listViewModel"
             type="com.example.blockbabos.presentation.ListViewModel" />
     </data>
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/list"
-        android:name="com.example.blockbabos.BaboMovieFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layoutManager="LinearLayoutManager"
-        tools:context=".presentation.fragments.ListFragment"
-        tools:listitem="@layout/fragment_babo_movie" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/list"
+            android:name="com.example.blockbabos.BaboMovieFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layoutManager="LinearLayoutManager"
+            tools:context=".presentation.fragments.ListFragment"
+            tools:listitem="@layout/fragment_babo_movie" />
 </layout>

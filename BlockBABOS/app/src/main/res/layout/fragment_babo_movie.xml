@@ -1,29 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
-
     <data>
-
         <variable
             name="baboMovie"
             type="com.example.blockbabos.domain.model.BaboMovie" />
-
         <variable
             name="listViewModel"
             type="com.example.blockbabos.presentation.ListViewModel" />
     </data>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/list_border"
         android:orientation="vertical">
-
+        <FrameLayout
+            android:id="@+id/fragment_movie_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:animateLayoutChanges="true"
             android:orientation="horizontal">
-
             <LinearLayout
                 android:id="@+id/item_delete_button_layout"
                 android:layout_width="wrap_content"
@@ -31,7 +29,6 @@
                 android:background="@drawable/delete_item_border"
                 android:orientation="horizontal"
                 android:visibility="gone">
-
                 <ImageButton
                     android:id="@+id/item_delete_button"
                     android:layout_width="match_parent"
@@ -42,7 +39,6 @@
                     android:onClick="@{() -> listViewModel.onDelete(baboMovie)}"
                     android:src="@drawable/ic_baseline_delete_outline_24" />
             </LinearLayout>
-
             <TextView
                 android:id="@+id/content"
                 android:layout_width="wrap_content"
@@ -52,53 +48,5 @@
                 android:textAppearance="?attr/textAppearanceListItem" />
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/movie_information"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:visibility="gone"
-            android:layout_marginStart="16dp"
-            >
-
-<!--            <ImageView-->
-<!--                android:layout_width="300dp"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:src=""-->
-
-            <TextView
-                android:id="@+id/movie_tagline"
-                android:layout_width="wrap_content"
-                android:textStyle="bold"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:id="@+id/movie_release_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:id="@+id/movie_homepage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:id="@+id/movie_genres"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <ProgressBar
-                android:id="@+id/movie_vote_average"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                style="?android:attr/progressBarStyleHorizontal"
-                android:max="100"/>
-            <TextView
-                android:id="@+id/movie_vote_average_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                />
-
-
-        </LinearLayout>
     </LinearLayout>
 </layout>

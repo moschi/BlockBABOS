@@ -18,15 +18,15 @@ class RecommendationCreator(
         }
         val randomLike = liked[generateRandomIndex(liked.size - 1)]
 
-        val similarToLiked = randomLike?.movieDbApiId?.let { apiController.getSimilar(it) }
-            ?.filter { !database.movieRated(it.id) }
+        val similarToLiked = randomLike.movieDbApiId?.let { apiController.getSimilar(it) }
+            .filter { !database.movieRated(it.id) }
 
         // todo: this is possibly a dangerous hack, but I like to live dangerously :)
         if (similarToLiked.isEmpty()) {
             return getSimilarRecommendation()
         }
 
-        return similarToLiked?.get(generateRandomIndex(similarToLiked.size - 1))
+        return similarToLiked.get(generateRandomIndex(similarToLiked.size - 1))
     }
 
     private suspend fun getStartRecommendation(): MovieInfo? {

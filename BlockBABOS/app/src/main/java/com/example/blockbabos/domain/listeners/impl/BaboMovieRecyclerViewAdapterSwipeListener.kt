@@ -10,7 +10,7 @@ import com.example.blockbabos.domain.listeners.helper.Swipe
 class BaboMovieRecyclerViewAdapterSwipeListener() : SwipeListener() {
 
     lateinit var view: View
-    var swipe = Swipe(200)
+    var swipe = Swipe(50)
 
 
     override fun onRightSwipe() {
@@ -34,6 +34,8 @@ class BaboMovieRecyclerViewAdapterSwipeListener() : SwipeListener() {
         view = v!!
         swipe.update(event!!)
 
+        println(swipe.getSwipeType())
+
         when (swipe.getSwipeType()) {
             Swipe.SwipeType.RIGHT -> {
                 onRightSwipe()
@@ -48,10 +50,8 @@ class BaboMovieRecyclerViewAdapterSwipeListener() : SwipeListener() {
                 onBotSwipe()
             }
             Swipe.SwipeType.NONE -> {
-                if(event.action == MotionEvent.ACTION_DOWN){
+              if(event.action == MotionEvent.ACTION_UP) {
                     view.performClick()
-                }else{
-                    onNone()
                 }
             }
         }

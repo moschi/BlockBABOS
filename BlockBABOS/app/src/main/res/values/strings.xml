@@ -26,4 +26,5 @@
     <string name="watchlist">Watchlist</string>
     <string name="recommendation_error">You have to swipe a little bit more</string>
     <string name="subtitle" translatable="false">Block Buster attribute based ordering system</string>
+    <string name="movieposter" translatable="false">movieposter</string>
 </resources>

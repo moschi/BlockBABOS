@@ -34,7 +34,11 @@ class Swipe(thresholdPercentage: Int) {
             SwipeType.NONE
 
         val deltaX = downX - upX
+
         val deltaY = downY - upY
+
+        println(deltaX)
+        println(deltaY)
 
         if (Math.abs(deltaX) > threshold) {
             if (deltaX < 0) {
