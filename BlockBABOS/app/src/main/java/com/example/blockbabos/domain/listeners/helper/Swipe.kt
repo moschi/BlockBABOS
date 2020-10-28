@@ -29,12 +29,16 @@ class Swipe(thresholdPercentage: Int) {
         UP, LEFT, RIGHT, DOWN, NONE
     }
 
-    fun getSwypeType(): SwipeType {
+    fun getSwipeType(): SwipeType {
         var type =
             SwipeType.NONE
 
         val deltaX = downX - upX
+
         val deltaY = downY - upY
+
+        println(deltaX)
+        println(deltaY)
 
         if (Math.abs(deltaX) > threshold) {
             if (deltaX < 0) {
@@ -76,7 +80,7 @@ class Swipe(thresholdPercentage: Int) {
             }
             if (ev.action == MotionEvent.ACTION_UP) {
                 setUp(ev.x, ev.y)
-                type = getSwypeType()
+                type = getSwipeType()
                 tobeReleased = false
             }
         }

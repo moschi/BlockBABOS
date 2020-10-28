@@ -58,7 +58,7 @@ class CustomYoutubeLayout : RelativeLayout {
 
             if (ev.action == MotionEvent.ACTION_UP) {
                 swipe.setUp(ev.x, ev.y)
-                type = swipe.getSwypeType()
+                type = swipe.getSwipeType()
                 val activity  = context as MainActivity
                 motion.reset()
                 this.setPadding(0,0,0,0)

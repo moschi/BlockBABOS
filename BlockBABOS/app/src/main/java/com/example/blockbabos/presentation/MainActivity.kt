@@ -10,17 +10,13 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.example.blockbabos.R
 import com.example.blockbabos.domain.listeners.helper.Swipe
-import com.example.blockbabos.presentation.fragments.FragmentStates
-import com.example.blockbabos.presentation.fragments.HomeFragment
-import com.example.blockbabos.presentation.fragments.ListFragment
-import com.example.blockbabos.presentation.fragments.VideoFragment
+import com.example.blockbabos.presentation.fragments.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import java.text.DateFormat
 import java.text.SimpleDateFormat
@@ -174,7 +170,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun renderFragment(mgr: FragmentManager, fragment: Fragment) {
         val trans: FragmentTransaction = mgr.beginTransaction()
-        // fragment.retainInstance = true
         trans.replace(R.id.main_fragment_container, fragment)
         trans.commit()
         currentFragment = fragment
