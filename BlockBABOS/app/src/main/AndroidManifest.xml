@@ -26,7 +26,8 @@
         </activity>
         <receiver
             android:name="com.example.blockbabos.presentation.ReminderNotification"
-            android:enabled="true"/>
+            android:enabled="true"
+            android:process=":remote" />
     </application>
 
 </manifest>

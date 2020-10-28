@@ -10,6 +10,7 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -39,8 +40,9 @@ class MainActivity : AppCompatActivity() {
         bottomNavigation.menu.setGroupCheckable(0, false, true)
         val mgr: FragmentManager = supportFragmentManager
         if (savedInstanceState != null) {
-            val fragmentStatesValue = savedInstanceState.getString("fragmentState") ?: FragmentStates.HOME_FRAGMENT.name
-            fragmentState =  FragmentStates.valueOf(fragmentStatesValue)
+            val fragmentStatesValue =
+                savedInstanceState.getString("fragmentState") ?: FragmentStates.HOME_FRAGMENT.name
+            fragmentState = FragmentStates.valueOf(fragmentStatesValue)
             val frag = supportFragmentManager.getFragment(
                 savedInstanceState,
                 fragmentState.name
@@ -80,20 +82,50 @@ class MainActivity : AppCompatActivity() {
 
     private fun scheduleAlarm() {
         val calendar: Calendar = Calendar.getInstance()
+        // every friday on 1945
         calendar.set(Calendar.HOUR_OF_DAY, 19)
         calendar.set(Calendar.MINUTE, 45)
         calendar.set(Calendar.SECOND, 0)
+        calendar.set(Calendar.DAY_OF_WEEK, 6)
+
+        // code for debugging
+        /*
+        val currTime = LocalDateTime.now()
+        var hour = currTime.hour
+        var minutes = currTime.minute
+        var seconds = currTime.second + 15
+        if (seconds > 59) {
+            seconds -= 60
+            minutes += 1
+            if (minutes > 59) {
+                minutes = 0
+                hour += 1
+            }
+        }
+        calendar.set(Calendar.HOUR_OF_DAY, hour)
+        calendar.set(Calendar.MINUTE, minutes)
+        calendar.set(Calendar.SECOND, seconds)
+
+         */
 
         val notificationReminder = Intent(this, ReminderNotification::class.java)
         notificationReminder.putExtra("text", getString(R.string.time_for_movie))
+
         val pi = PendingIntent.getBroadcast(
             this,
             0,
             notificationReminder,
             PendingIntent.FLAG_UPDATE_CURRENT
         )
+
         val alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
-        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, AlarmManager.INTERVAL_DAY, pi)
+        alarmManager.setRepeating(
+            AlarmManager.RTC_WAKEUP,
+            calendar.timeInMillis,
+            AlarmManager.INTERVAL_DAY,
+            pi
+        )
+
         val df: DateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS", Locale.US)
         Log.d(CHANNEL_ID, "alarm set at: ${df.format(calendar.time)}")
     }

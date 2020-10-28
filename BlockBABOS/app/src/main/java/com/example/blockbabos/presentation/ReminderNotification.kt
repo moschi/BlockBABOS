@@ -9,13 +9,13 @@ import android.util.Log
 import androidx.core.app.NotificationCompat
 
 
-class ReminderNotification: BroadcastReceiver() {
+class ReminderNotification : BroadcastReceiver() {
 
     override fun onReceive(context: Context?, intent: Intent?) {
         Log.d(CHANNEL_ID, "ReminderNotification started")
         val contentIntent = PendingIntent.getActivity(
             context, 0,
-            Intent(context, ReminderNotification::class.java), 0
+            Intent(context, MainActivity::class.java), 0
 
         )
         val text = intent?.getStringExtra("text")
@@ -30,7 +30,8 @@ class ReminderNotification: BroadcastReceiver() {
                 .setContentIntent(contentIntent)
                 .setAutoCancel(true)
 
-            val mNotificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            val mNotificationManager =
+                context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             mNotificationManager.notify(1, builder.build())
         }
     }
