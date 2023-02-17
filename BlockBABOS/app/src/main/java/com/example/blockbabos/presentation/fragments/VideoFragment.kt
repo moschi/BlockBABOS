@@ -1,13 +1,11 @@
 package com.example.blockbabos.presentation.fragments
 
-import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -16,7 +14,6 @@ import com.example.blockbabos.domain.listeners.helper.Swipe
 import com.example.blockbabos.domain.moviedbapi.ApiController
 import com.example.blockbabos.persistence.BaboMovieRoomDatabase
 import com.google.android.material.appbar.MaterialToolbar
-import com.google.android.material.bottomnavigation.BottomNavigationMenu
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
@@ -85,6 +82,7 @@ class VideoFragment : Fragment() {
         toolbar = activity?.findViewById(R.id.toolbar) as MaterialToolbar
         toolbar.title = ""
         lifecycle.addObserver(youTubePlayerView)
+
         youTubePlayerView.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
             override fun onReady(youTubePlayer: YouTubePlayer) {
                 youtubePlayer = youTubePlayer
@@ -113,8 +111,8 @@ class VideoFragment : Fragment() {
 
         currentPlayedMovieTitle = swipeViewModel.getCurrentMovie().title ?: ""
         currentPlayedMovieId = swipeViewModel.getCurrentMovie().id
-        toBePlayed = nextVideoUri
 
+        toBePlayed = nextVideoUri
         return nextVideoUri
     }
 

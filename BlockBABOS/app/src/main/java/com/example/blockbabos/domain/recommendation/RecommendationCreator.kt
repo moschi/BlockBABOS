@@ -18,7 +18,7 @@ class RecommendationCreator(
         }
         val randomLike = liked[generateRandomIndex(liked.size - 1)]
 
-        val similarToLiked = randomLike.movieDbApiId?.let { apiController.getSimilar(it) }
+        val similarToLiked = randomLike.movieDbApiId.let { apiController.getSimilar(it) }
             .filter { !database.movieRated(it.id) }
 
         // todo: this is possibly a dangerous hack, but I like to live dangerously :)

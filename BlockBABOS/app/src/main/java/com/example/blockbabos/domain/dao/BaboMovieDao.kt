@@ -32,7 +32,7 @@ interface BaboMovieDao {
     fun getSuperlikedAsList(): List<BaboMovie>
 
     @Query("SELECT * from BaboMovie WHERE movieDbApiId = :key")
-    suspend fun get(key: Int): BaboMovie?
+    fun get(key: Int): BaboMovie?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(entry: BaboMovie)
